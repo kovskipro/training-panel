@@ -22,14 +22,14 @@ export default function RegeneracjaPanel() {
     <div className="panel-in space-y-4">
       <div className="card">
         <div className="card-hdr">
-          <h3 className="font-serif text-2xl text-stone-900">Sen i regeneracja</h3>
+          <h3 className="font-serif text-2xl text-neutral-900">Sen i regeneracja</h3>
         </div>
         <div className="space-y-0">
           {recovery.map((r,i) => (
-            <div key={i} className="grid md:grid-cols-3 gap-1 md:gap-4 py-3 border-b border-stone-100 last:border-0">
-              <div className="font-medium text-sm text-stone-900">{r.topic}</div>
+            <div key={i} className="grid md:grid-cols-3 gap-1 md:gap-4 py-3 border-b border-neutral-100 last:border-0">
+              <div className="font-medium text-sm text-neutral-900">{r.topic}</div>
               <div className="text-sm text-green-700 font-medium">{r.rec}</div>
-              <div className="text-sm text-stone-500">{r.why}</div>
+              <div className="text-sm text-neutral-500">{r.why}</div>
             </div>
           ))}
         </div>
@@ -37,17 +37,17 @@ export default function RegeneracjaPanel() {
 
       <div className="card">
         <div className="card-hdr">
-          <h3 className="font-serif text-2xl text-stone-900">Odżywianie – praktyczne wskazówki</h3>
+          <h3 className="font-serif text-2xl text-neutral-900">Odżywianie – praktyczne wskazówki</h3>
         </div>
         <div className="mb-4">
           <Callout kind="warn">Nie stosuj restrykcyjnych diet kalorycznych – organizm jest w fazie wzrostu i trenuje 6 dni w tygodniu. BMI 20,5 to norma. Zadbaj o jakość jedzenia i odpowiednie białko.</Callout>
         </div>
         <div className="md:hidden space-y-3">
           {nutrition.map((n,i) => (
-            <div key={i} className="py-2 border-b border-stone-100 last:border-0">
-              <div className="font-medium text-sm text-stone-900">{n.el}</div>
+            <div key={i} className="py-2 border-b border-neutral-100 last:border-0">
+              <div className="font-medium text-sm text-neutral-900">{n.el}</div>
               <div className="text-sm text-green-700 mt-0.5">{n.rec}</div>
-              <div className="text-xs text-stone-500 mt-1">{n.ex}</div>
+              <div className="text-xs text-neutral-500 mt-1">{n.ex}</div>
             </div>
           ))}
         </div>
@@ -57,9 +57,9 @@ export default function RegeneracjaPanel() {
             <tbody>
               {nutrition.map((n,i) => (
                 <tr key={i}>
-                  <td className="font-medium text-stone-800">{n.el}</td>
-                  <td className="text-stone-600">{n.rec}</td>
-                  <td className="text-stone-500">{n.ex}</td>
+                  <td className="font-medium text-neutral-800">{n.el}</td>
+                  <td className="text-neutral-600">{n.rec}</td>
+                  <td className="text-neutral-500">{n.ex}</td>
                 </tr>
               ))}
             </tbody>

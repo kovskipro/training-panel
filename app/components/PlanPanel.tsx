@@ -8,8 +8,8 @@ export default function PlanPanel() {
       <div className="card">
         <div className="card-hdr">
           <div>
-            <h3 className="font-serif text-2xl text-stone-900">6-dniowy plan tygodniowy</h3>
-            <p className="text-sm text-stone-500 mt-0.5">Każda partia mięśniowa ma min. 48 h regeneracji zanim pojawi się ponownie</p>
+            <h3 className="font-serif text-2xl text-neutral-900">6-dniowy plan tygodniowy</h3>
+            <p className="text-sm text-neutral-500 mt-0.5">Każda partia mięśniowa ma min. 48 h regeneracji zanim pojawi się ponownie</p>
           </div>
         </div>
 
@@ -17,13 +17,13 @@ export default function PlanPanel() {
           {weeklyPlan.map(row => (
             <div
               key={row.day}
-              className="rounded-2xl border border-stone-200 bg-white p-4 min-h-[140px]"
+              className="rounded-2xl border border-neutral-200 bg-white p-4 min-h-[140px]"
             >
-              <div className="text-xs font-medium text-stone-400 mb-2 uppercase tracking-wide">{row.day}</div>
+              <div className="text-xs font-medium text-neutral-400 mb-2 uppercase tracking-wide">{row.day}</div>
               <div className="mb-2">
                 <Badge v={row.badge}>{row.label}</Badge>
               </div>
-              <div className="text-sm text-stone-700 leading-relaxed">{row.focus}</div>
+              <div className="text-sm text-neutral-700 leading-relaxed">{row.focus}</div>
             </div>
           ))}
         </div>
@@ -35,7 +35,7 @@ export default function PlanPanel() {
 
       <div className="card">
         <div className="card-hdr">
-          <h3 className="font-serif text-2xl text-stone-900">Czas trwania treningów</h3>
+          <h3 className="font-serif text-2xl text-neutral-900">Czas trwania treningów</h3>
         </div>
         <div className="tw">
           <table className="dt">
@@ -51,8 +51,8 @@ export default function PlanPanel() {
               ].map(r => (
                 <tr key={r.s}>
                   <td><Badge v={r.badge as any}>{r.label}</Badge></td>
-                  <td className="text-stone-600">{r.focus}</td>
-                  <td className="text-stone-500">{r.n}</td>
+                  <td className="text-neutral-600">{r.focus}</td>
+                  <td className="text-neutral-500">{r.n}</td>
                   <td className="font-medium text-green-700">{r.t}</td>
                 </tr>
               ))}

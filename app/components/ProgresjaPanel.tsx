@@ -7,7 +7,7 @@ export default function ProgresjaPanel() {
     <div className="panel-in space-y-4">
       <div className="card">
         <div className="card-hdr">
-          <h3 className="font-serif text-2xl text-stone-900">Progresja 8-tygodniowa</h3>
+          <h3 className="font-serif text-2xl text-neutral-900">Progresja 8-tygodniowa</h3>
         </div>
         <div className="space-y-4 mb-4">
           {progression.map(p => (
@@ -16,8 +16,8 @@ export default function ProgresjaPanel() {
                 <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-800 text-xs font-medium flex items-center justify-center">{p.weeks}</div>
               </div>
               <div>
-                <div className="font-medium text-stone-900 mb-1">{p.title}</div>
-                <p className="text-sm text-stone-500 leading-relaxed">{p.body}</p>
+                <div className="font-medium text-neutral-900 mb-1">{p.title}</div>
+                <p className="text-sm text-neutral-500 leading-relaxed">{p.body}</p>
               </div>
             </div>
           ))}
@@ -31,14 +31,14 @@ export default function ProgresjaPanel() {
 
       <div className="card">
         <div className="card-hdr">
-          <h3 className="font-serif text-2xl text-stone-900">Kontrola postępów</h3>
+          <h3 className="font-serif text-2xl text-neutral-900">Kontrola postępów</h3>
         </div>
         <div className="md:hidden space-y-3">
           {progressChecks.map((c,i) => (
-            <div key={i} className="py-2 border-b border-stone-100 last:border-0">
-              <div className="font-medium text-sm text-stone-900">{c.what}</div>
-              <div className="text-xs text-stone-500 mt-0.5">{c.freq}</div>
-              <div className="text-xs text-stone-400 mt-0.5">{c.how}</div>
+            <div key={i} className="py-2 border-b border-neutral-100 last:border-0">
+              <div className="font-medium text-sm text-neutral-900">{c.what}</div>
+              <div className="text-xs text-neutral-500 mt-0.5">{c.freq}</div>
+              <div className="text-xs text-neutral-400 mt-0.5">{c.how}</div>
             </div>
           ))}
         </div>
@@ -48,9 +48,9 @@ export default function ProgresjaPanel() {
             <tbody>
               {progressChecks.map((c,i) => (
                 <tr key={i}>
-                  <td className="font-medium text-stone-800">{c.what}</td>
-                  <td className="text-stone-500">{c.freq}</td>
-                  <td className="text-stone-500">{c.how}</td>
+                  <td className="font-medium text-neutral-800">{c.what}</td>
+                  <td className="text-neutral-500">{c.freq}</td>
+                  <td className="text-neutral-500">{c.how}</td>
                 </tr>
               ))}
             </tbody>

@@ -54,9 +54,9 @@ export default function SchemataPanel() {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className={`badge ${s.badge}`}>{s.label}</span>
-                <span className="text-xs text-stone-400">{s.day} · {s.time}</span>
+                <span className="text-xs text-neutral-400">{s.day} · {s.time}</span>
               </div>
-              <h3 className="font-serif text-2xl text-stone-900">{s.sub}</h3>
+              <h3 className="font-serif text-2xl text-neutral-900">{s.sub}</h3>
             </div>
           </div>
           <ExTable rows={rows} />
