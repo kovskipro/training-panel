@@ -1,5 +1,6 @@
 'use client'
 import { weeklyPlan } from '../data'
+import FooterAnimation from './FooterAnimation'
 import { Badge, Callout } from './ui'
 
 export default function PlanPanel() {
@@ -61,6 +62,11 @@ export default function PlanPanel() {
         </div>
         <Callout kind="info">Łącznie z rozgrzewką (8 min) i schłodzeniem (8 min) każdy trening mieści się w 75–100 min. Przy sprawnym tempie przerw – bliżej 60–75 min.</Callout>
       </div>
+      <FooterAnimation>
+        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
+          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
+        </footer>
+      </FooterAnimation>
     </div>
   )
 }

@@ -2,7 +2,6 @@ import { stats } from './data'
 import TabNav from './components/TabNav'
 import { Callout } from './components/ui'
 import AnimatedPage from './components/AnimatedPage'
-import FooterAnimation from './components/FooterAnimation'
 
 export default function Home() {
   return (
@@ -30,11 +29,7 @@ export default function Home() {
         </Callout>
       </div>
       <TabNav />
-      <FooterAnimation>
-        <footer className="max-w-6xl mx-auto px-4 py-8">
-        <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-        </footer>
-      </FooterAnimation>
+
     </AnimatedPage>
   )
 }
