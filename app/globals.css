@@ -100,28 +100,24 @@ html[data-theme='dark'] .tab-underline { background-color: hsl(30, 6%, 91%); }
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
     line-height: 1.7;
-    border-radius: 0 0.75rem 0.75rem 0;
-    border-left: 4px solid transparent;
+    border-radius: 0.75rem;
+    border-left: none;
   }
   .co-info {
     background-color: var(--callout-info-bg);
     color: var(--callout-info-text);
-    border-left-color: var(--callout-info-border);
   }
   .co-safe {
     background-color: var(--callout-safe-bg);
     color: var(--callout-safe-text);
-    border-left-color: var(--callout-safe-border);
   }
   .co-warn {
     background-color: var(--callout-warn-bg);
     color: var(--callout-warn-text);
-    border-left-color: var(--callout-warn-border);
   }
   .co-danger {
     background-color: var(--callout-danger-bg);
     color: var(--callout-danger-text);
-    border-left-color: var(--callout-danger-border);
   }
 
   /* card */
@@ -137,7 +133,7 @@ html[data-theme='dark'] .tab-underline { background-color: hsl(30, 6%, 91%); }
   }
 
   /* data table wrapper + table */
-  .tw { @apply border rounded-xl overflow-hidden mb-3; border-color: var(--border); }
+  .tw { @apply border rounded-xl overflow-hidden mb-0; border-color: var(--border); }
   .dt { @apply w-full border-collapse text-sm; }
   .dt th { @apply text-left px-3 py-2 text-xs font-medium uppercase tracking-wide; color: var(--text-muted); background-color: var(--surface-soft); border-bottom: 1px solid var(--border); }
   .dt td { @apply px-3 py-2.5 align-top leading-relaxed; border-bottom: 1px solid var(--border); }

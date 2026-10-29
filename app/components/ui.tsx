@@ -6,17 +6,25 @@ type CalloutKind = 'info'|'safe'|'warn'|'danger'
 
 const calloutPalette: Record<'light' | 'dark', Record<CalloutKind, React.CSSProperties>> = {
   light: {
-    info: { backgroundColor: '#eff6ff', color: '#1e3a8a', borderLeft: '4px solid #60a5fa' },
-    safe: { backgroundColor: '#f0fdf4', color: '#166534', borderLeft: '4px solid #16a34a' },
-    warn: { backgroundColor: '#fffbeb', color: '#92400e', borderLeft: '4px solid #f59e0b' },
-    danger: { backgroundColor: '#fef2f2', color: '#991b1b', borderLeft: '4px solid #ef4444' },
+    info: { backgroundColor: 'hsl(217, 91%, 97%)', color: 'hsl(222, 47%, 11%)', borderColor: 'hsla(217, 91%, 60%, 0.25)' },
+    safe: { backgroundColor: 'hsl(140, 60%, 96%)', color: 'hsl(140, 60%, 12%)', borderColor: 'hsla(140, 60%, 35%, 0.25)' },
+    warn: { backgroundColor: 'hsl(35, 100%, 97%)', color: 'hsl(35, 100%, 20%)', borderColor: 'hsla(35, 90%, 65%, 0.25)' },
+    danger: { backgroundColor: 'hsl(0, 100%, 97%)', color: 'hsl(0, 60%, 15%)', borderColor: 'hsla(0, 70%, 50%, 0.25)' },
   },
   dark: {
-    info: { backgroundColor: 'rgba(59, 130, 246, 0.14)', color: '#bfdbfe', borderLeft: '4px solid #60a5fa' },
-    safe: { backgroundColor: 'rgba(34, 197, 94, 0.14)', color: '#bbf7d0', borderLeft: '4px solid #34d399' },
-    warn: { backgroundColor: 'rgba(245, 158, 11, 0.14)', color: '#fde68a', borderLeft: '4px solid #f59e0b' },
-    danger: { backgroundColor: 'rgba(239, 68, 68, 0.14)', color: '#fecaca', borderLeft: '4px solid #f87171' },
+    info: { backgroundColor: 'hsla(217, 91%, 60%, 0.14)', color: 'hsl(210, 100%, 88%)', borderColor: 'hsla(217, 91%, 60%, 0.25)' },
+    safe: { backgroundColor: 'hsla(142, 76%, 36%, 0.14)', color: 'hsl(142, 70%, 85%)', borderColor: 'hsla(140, 70%, 65%, 0.25)' },
+    warn: { backgroundColor: 'hsla(35, 92%, 58%, 0.14)', color: 'hsl(35, 90%, 88%)', borderColor: 'hsla(35, 90%, 65%, 0.25)' },
+    danger: { backgroundColor: 'hsla(0, 84%, 60%, 0.14)', color: 'hsl(0, 90%, 88%)', borderColor: 'hsla(0, 70%, 50%, 0.25)' },
   },
+}
+
+export { useTheme } from './ThemeProvider'
+
+export function ThemeLogo() {
+  const { resolvedTheme } = useTheme()
+  const logoSrc = resolvedTheme === 'dark' ? '/logo.svg' : '/logo-dark.svg'
+  return <img src={logoSrc} alt="Logo" className="h-9" />
 }
 
 export function Badge({ v, children }: { v: BadgeVariant; children: React.ReactNode }) {
@@ -35,8 +43,9 @@ export function Callout({ kind, children }: { kind: CalloutKind; children: React
         padding: '0.75rem 1rem',
         fontSize: '0.95rem',
         lineHeight: 1.7,
-        borderRadius: '0 0.75rem 0.75rem 0',
-        ...calloutPalette[resolvedTheme][kind],
+        borderRadius: '0.75rem',
+        background: `linear-gradient(to right, ${calloutPalette[resolvedTheme][kind].backgroundColor}, ${calloutPalette[resolvedTheme][kind].borderColor})`,
+        color: calloutPalette[resolvedTheme][kind].color,
       }}
     >
       {children}
@@ -73,16 +82,7 @@ export function ExTable({ rows }: { rows: Exercise[] }) {
       {/* Desktop table */}
       <div className="tw hidden md:block">
         <table className="dt">
-          <thead>
-            <tr>
-              <th className="w-8">#</th>
-              <th className="w-48">Ćwiczenie</th>
-              <th className="w-32">Serie × Pow.</th>
-              <th className="w-20">Przerwa</th>
-              <th>Wskazówki techniczne</th>
-              <th className="w-52">YouTube</th>
-            </tr>
-          </thead>
+          <thead><tr><th>#</th><th>Ćwiczenie</th><th>Serie × Pow.</th><th>Przerwa</th><th>Wskazówki techniczne</th><th>YouTube</th></tr></thead>
           <tbody>
             {rows.map(ex => (
               <tr key={ex.id}>

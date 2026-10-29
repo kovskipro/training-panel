@@ -6,8 +6,8 @@ import { useTheme } from './ThemeProvider'
 
 export default function ProgresjaPanel() {
   const { resolvedTheme } = useTheme()
-  const infoBg = resolvedTheme === 'dark' ? 'rgba(59, 130, 246, 0.14)' : '#eff6ff'
-  const infoColor = resolvedTheme === 'dark' ? '#bfdbfe' : '#1e3a8a'
+  const infoBg = resolvedTheme === 'dark' ? 'hsla(217, 91%, 60%, 0.14)' : 'hsl(217, 91%, 97%)'
+  const infoColor = resolvedTheme === 'dark' ? 'hsl(210, 100%, 88%)' : 'hsl(222, 47%, 11%)'
   return (
     <div className="panel-in space-y-4">
       <div className="card">
