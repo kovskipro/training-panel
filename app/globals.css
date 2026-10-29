@@ -67,6 +67,16 @@
   body { background-color:var(--page-bg); color:var(--text); transition: background-color 0.35s ease, color 0.35s ease; }
   ::-webkit-scrollbar { width:4px; height:4px; }
   ::-webkit-scrollbar-thumb { background:hsl(30, 6%, 85%); border-radius:99px; }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid hsl(222, 47%, 11%);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+  html[data-theme='dark'] a:focus-visible,
+  html[data-theme='dark'] button:focus-visible,
+  html[data-theme='dark'] [tabindex]:focus-visible {
+    outline-color: hsl(210, 100%, 88%);
+  }
 }
 
 .tab-underline { background-color: hsl(222, 47%, 11%); }
@@ -115,7 +125,7 @@ html[data-theme='dark'] .tab-underline { background-color: hsl(30, 6%, 91%); }
   }
 
   /* card */
-  .card { @apply rounded-2xl p-5 mb-4; background-color: var(--surface); }
+  .card { @apply rounded-2xl p-5 mb-4 overflow-visible; background-color: var(--surface); }
   .card:last-child { @apply mb-0; }
   .card-hdr { @apply flex items-start gap-3 mb-5; }
   .border-dash-wide {
@@ -140,14 +150,14 @@ html[data-theme='dark'] .tab-underline { background-color: hsl(30, 6%, 91%); }
   .theme-toggle-header { @apply flex flex-col gap-0.5 min-w-[8.5rem] pl-1; }
   .theme-toggle-label { @apply text-[10px] font-medium uppercase tracking-[0.24em]; color: var(--text-dim); }
   .theme-toggle-state { @apply text-xs font-medium; color: var(--text-strong); }
-  .theme-toggle-group { @apply inline-flex gap-1 rounded-xl p-1; background-color: var(--surface-soft); }
+  .theme-toggle-group { @apply inline-flex gap-1 rounded-xl p-1 overflow-visible; background-color: var(--surface-soft); }
   .theme-toggle-btn { @apply min-w-[4.6rem] rounded-lg px-3 py-2 text-xs font-medium transition-all; color: var(--text-muted); }
   .theme-toggle-btn:hover { color: var(--text-strong); }
   .theme-toggle-btn[data-active='true'] { background-color: var(--surface); color: var(--text-strong); }
   .theme-toggle-skeleton { @apply h-11 w-40 rounded-2xl border; background-color: var(--surface); border-color: var(--border); }
 
   .schema-picker-btn {
-    @apply shrink-0 px-3 py-2 rounded-xl text-sm transition-all;
+    @apply shrink-0 px-3 py-2 rounded-xl text-sm transition-all overflow-visible;
     background-color: var(--surface);
     color: var(--text-muted);
   }
@@ -216,3 +226,4 @@ html[data-theme='dark'] .theme-sticky button.border-transparent:hover {
 html[data-theme='dark'] .theme-toggle-label {
   color: var(--text-dim);
 }
+

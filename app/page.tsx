@@ -10,8 +10,9 @@ export default function Home() {
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-mono text-neutral-400 tracking-widest uppercase mb-2">Plan treningowy domowy · 6 dni / tydzień</p>
-            <h1 className="font-serif text-4xl md:text-5xl text-neutral-900 leading-tight mb-1">
-            Redukcja + Budowa
+            <h1 className="font-serif text-4xl md:text-5xl text-neutral-900 leading-tight mb-1 flex items-center gap-3">
+              <img src="/logo.svg" alt="Logo" className="h-9" />
+              Cześć Gabriel!
             </h1>
             <p className="text-neutral-400 text-sm">Brzuch · Biceps · Triceps · Przedramię · Całe ciało · 8-tygodniowa progresja</p>
           </div>

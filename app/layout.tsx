@@ -11,6 +11,17 @@ const mono  = DM_Mono({ subsets:['latin'], variable:'--font-mono', weight:['400'
 export const metadata: Metadata = {
   title: 'Plan treningowy – 15 lat · 6 dni',
   description: 'Kompleksowy 6-dniowy plan treningowy – brzuch, biceps, triceps, przedramię i całe ciało. Redukcja + budowa mięśni.',
+  openGraph: {
+    title: 'Plan treningowy – 15 lat · 6 dni',
+    description: 'Kompleksowy 6-dniowy plan treningowy. Redukcja + budowa mięśni.',
+    images: [{ url: '/screenshot.png' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Plan treningowy – 15 lat · 6 dni',
+    description: 'Kompleksowy 6-dniowy plan treningowy. Redukcja + budowa mięśni.',
+    images: ['/screenshot.png'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pl" className={`${serif.variable} ${sans.variable} ${mono.variable}`} data-theme={initialTheme} suppressHydrationWarning>
       <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="font-sans antialiased">

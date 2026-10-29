@@ -37,7 +37,7 @@ export default function SchemataPanel() {
   return (
     <div>
       {/* schema picker */}
-      <div className="flex gap-2 mb-5 overflow-x-auto no-scrollbar pb-1">
+      <div className="flex gap-2 mb-5 overflow-x-auto overflow-y-visible no-scrollbar pb-1">
         {schemas.map(s => (
           <button
             key={s.id}
