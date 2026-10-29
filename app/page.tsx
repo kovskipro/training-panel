@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { stats } from './data'
 import TabNav from './components/TabNav'
 import { Callout } from './components/ui'
@@ -29,9 +30,9 @@ export default function Home() {
         </Callout>
       </div>
       <TabNav />
-      <footer className="max-w-6xl mx-auto px-4 py-8">
+      <motion.footer initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }} className="max-w-6xl mx-auto px-4 py-8">
         <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-      </footer>
+      </motion.footer>
     </AnimatedPage>
   )
 }
