@@ -28,9 +28,7 @@ export default function Home() {
           <strong>Podejście rekompozycji:</strong> Przy BMI 20,5 i 15 latach organizm doskonale toleruje jednoczesną redukcję tłuszczu i budowę mięśni. 6 treningów z rotacją partii mięśniowych zapewnia max efektywność bez ryzyka przetrenowania. Każda partia ma min. 48 h regeneracji.
         </Callout>
       </div>
-      <div className="max-w-6xl mx-auto px-4 ">
-        <TabNav />
-      </div>
+      <TabNav />
       <footer className="max-w-6xl mx-auto px-4 py-8">
         <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
       </footer>
