@@ -30,9 +30,11 @@ export default function Home() {
         </Callout>
       </div>
       <TabNav />
-      <motion.footer initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }} className="max-w-6xl mx-auto px-4 py-8">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }}>
+        <footer className="max-w-6xl mx-auto px-4 py-8">
         <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-      </motion.footer>
+        </footer>
+      </motion.div>
     </AnimatedPage>
   )
 }
