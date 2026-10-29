@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pl" className={`${serif.variable} ${sans.variable} ${mono.variable}`} data-theme={initialTheme} suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content='16777215' />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
