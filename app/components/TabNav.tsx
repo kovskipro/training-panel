@@ -21,7 +21,6 @@ const tabs = [
 
 export default function TabNav() {
   const [active, setActive] = useState('schematy')
-  const [hoverTab, setHoverTab] = useState<string | null>(null)
   const { theme, setTheme } = useTheme()
   return (
     <>
@@ -30,7 +29,6 @@ export default function TabNav() {
           <div className="flex gap-0 overflow-x-auto no-scrollbar relative">
             {tabs.map(tab => (
               <button key={tab.id} onClick={() => setActive(tab.id)}
-                onMouseEnter={() => setHoverTab(tab.id)} onMouseLeave={() => setHoverTab(null)}
                 className={`shrink-0 relative flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm transition-all whitespace-nowrap ${
                   active === tab.id
                     ? 'text-neutral-900 font-normal'
@@ -41,9 +39,6 @@ export default function TabNav() {
                 <span className="sm:hidden text-xs">{tab.label.split(' ')[0]}</span>
                 {active === tab.id && (
                   <motion.div layoutId="tab-underline" className="tab-underline absolute bottom-0 left-0 right-0 h-0.5 rounded-full z-10" />
-                )}
-                {hoverTab === tab.id && hoverTab !== active && (
-                  <motion.div layoutId="tab-hover" className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-neutral-300 z-0" />
                 )}
               </button>
             ))}
