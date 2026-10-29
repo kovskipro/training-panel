@@ -24,7 +24,7 @@ export default function TabNav() {
   const { theme, setTheme } = useTheme()
   return (
     <>
-      <div className="theme-sticky sticky top-0 z-10 backdrop-blur-sm border-b border-neutral-200">
+      <div className="theme-sticky sticky top-0 z-10 backdrop-blur-sm border-b border-neutral-200 w-full">
         <div className="max-w-6xl mx-auto flex justify-between">
           <div className="flex gap-0 overflow-x-auto no-scrollbar relative">
             {tabs.map(tab => (
