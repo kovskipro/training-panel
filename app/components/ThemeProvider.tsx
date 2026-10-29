@@ -109,13 +109,7 @@ export function ThemeProvider({ children, initialTheme }: { children: React.Reac
     [theme, resolvedTheme],
   )
 
-  return (
-    <ThemeContext.Provider value={value}>
-      <motion.div key={resolvedTheme} initial={{ opacity: 0.9 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
-        {children}
-      </motion.div>
-    </ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
 export function useTheme() {

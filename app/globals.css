@@ -62,9 +62,9 @@
     --callout-danger-text: hsl(0, 90%, 88%);
     --callout-danger-border: hsl(0, 90%, 65%);
   }
-  * { box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { background-color:var(--page-bg); color:var(--text); }
+  * { box-sizing:border-box; transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease; }
+  html { scroll-behavior:smooth; transition: background-color 0.35s ease, color 0.35s ease; }
+  body { background-color:var(--page-bg); color:var(--text); transition: background-color 0.35s ease, color 0.35s ease; }
   ::-webkit-scrollbar { width:4px; height:4px; }
   ::-webkit-scrollbar-thumb { background:hsl(30, 6%, 85%); border-radius:99px; }
 }
