@@ -57,6 +57,9 @@ export default function TabNav() {
                 className={`shrink-0 relative flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm transition-all whitespace-nowrap ${theme === value ? 'text-neutral-900 font-normal' : 'text-neutral-400 hover:text-neutral-800 hover:border-neutral-300'}`}
               >
                 <Icon size={16} strokeWidth={2} />
+                {theme === value && (
+                  <motion.div layoutId="theme-underline" className="tab-underline absolute bottom-0 left-0 right-0 h-0.5 rounded-full z-10" />
+                )}
               </button>
             ))}
           </div>
