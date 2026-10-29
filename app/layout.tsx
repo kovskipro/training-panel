@@ -15,10 +15,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Plan treningowy – 15 lat · 6 dni',
     description: 'Kompleksowy 6-dniowy plan treningowy. Redukcja + budowa mięśni.',
-    images: [{ url: '/screenshot.png' }],
+    siteName: 'Plan treningowy',
+    type: 'website',
+    images: [{ url: '/screenshot.png', width: 1200, height: 630, alt: 'Plan treningowy' }],
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@plan_treningowy',
     title: 'Plan treningowy – 15 lat · 6 dni',
     description: 'Kompleksowy 6-dniowy plan treningowy. Redukcja + budowa mięśni.',
     images: ['/screenshot.png'],
