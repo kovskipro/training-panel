@@ -69,6 +69,9 @@
   ::-webkit-scrollbar-thumb { background:hsl(30, 6%, 85%); border-radius:99px; }
 }
 
+.tab-underline { background-color: hsl(222, 47%, 11%); }
+html[data-theme='dark'] .tab-underline { background-color: hsl(30, 6%, 91%); }
+
 @layer components {
   /* badges */
   .badge { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium; }
