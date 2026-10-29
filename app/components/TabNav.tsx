@@ -25,7 +25,7 @@ export default function TabNav() {
   return (
     <>
       <div className="theme-sticky sticky top-0 z-10 backdrop-blur-sm border-b border-neutral-200 w-full">
-        <div className="max-w-6xl mx-auto flex justify-between">
+        <div className="max-w-6xl mx-auto flex justify-between px-4">
           <div className="flex gap-0 overflow-x-auto no-scrollbar relative">
             {tabs.map(tab => (
               <button key={tab.id} onClick={() => setActive(tab.id)}
@@ -65,7 +65,7 @@ export default function TabNav() {
           </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto py-6">
+      <div className="max-w-6xl mx-auto px-4 py-6">
         <AnimatePresence mode="wait">
           <motion.div key={active} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
             {active === 'schematy'    && <SchemataPanel />}
