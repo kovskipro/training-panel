@@ -26,10 +26,10 @@ export default function TabNav() {
     <>
       <div className="theme-sticky sticky top-0 z-10 backdrop-blur-sm border-b border-neutral-200">
         <div className="max-w-6xl mx-auto flex justify-between">
-          <div className="flex gap-0 overflow-x-auto no-scrollbar">
+          <div className="flex gap-0 overflow-x-auto no-scrollbar relative">
             {tabs.map(tab => (
               <button key={tab.id} onClick={() => setActive(tab.id)}
-                className={`shrink-0 flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm border-b-2 transition-all whitespace-nowrap ${
+                className={`shrink-0 relative flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm border-b-2 transition-all whitespace-nowrap ${
                   active === tab.id
                     ? 'border-neutral-900 text-neutral-900 font-normal'
                     : 'border-transparent text-neutral-400 hover:text-neutral-800 hover:border-neutral-300'
@@ -37,6 +37,9 @@ export default function TabNav() {
                 <tab.Icon size={16} strokeWidth={2} />
                 <span className="hidden sm:inline">{tab.label}</span>
                 <span className="sm:hidden text-xs">{tab.label.split(' ')[0]}</span>
+                {active === tab.id && (
+                  <motion.div layoutId="tab-underline" className="absolute bottom-0 left-2 right-2 h-0.5 bg-neutral-900 rounded-full" />
+                )}
               </button>
             ))}
           </div>
@@ -51,7 +54,7 @@ export default function TabNav() {
                 onClick={() => setTheme(value)}
                 aria-label={label}
                 title={label}
-                className={`shrink-0 flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm border-b-2 transition-all whitespace-nowrap ${theme === value ? 'border-neutral-900 text-neutral-900 font-normal' : 'border-transparent text-neutral-400 hover:text-neutral-800 hover:border-neutral-300'}`}
+                className={`shrink-0 relative flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm border-b-2 transition-all whitespace-nowrap ${theme === value ? 'border-neutral-900 text-neutral-900 font-normal' : 'border-transparent text-neutral-400 hover:text-neutral-800 hover:border-neutral-300'}`}
               >
                 <Icon size={16} strokeWidth={2} />
               </button>
