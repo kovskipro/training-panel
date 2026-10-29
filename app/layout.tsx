@@ -9,6 +9,7 @@ const sans  = DM_Sans({ subsets:['latin'], variable:'--font-sans', weight:['300'
 const mono  = DM_Mono({ subsets:['latin'], variable:'--font-mono', weight:['400','500'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://training-plan.vercel.app'),
   title: 'Plan treningowy – 15 lat · 6 dni',
   description: 'Kompleksowy 6-dniowy plan treningowy – brzuch, biceps, triceps, przedramię i całe ciało. Redukcja + budowa mięśni.',
   openGraph: {
