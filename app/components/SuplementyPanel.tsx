@@ -16,7 +16,7 @@ export default function SuplementyPanel() {
         <div className="card-hdr"><h3 className="font-serif text-2xl text-neutral-900">Przegląd suplementów</h3></div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {supplements.map(s => (
-            <div key={s.name} className="bg-white rounded-2xl p-4 border border-neutral-200">
+            <div key={s.name} className="bg-white rounded-2xl border border-neutral-200 p-4">
               <div className="font-medium text-sm text-neutral-900 mb-1.5">{s.name}</div>
               <div className="mb-2"><Badge v={statusBadge[s.status]}>{s.verdict}</Badge></div>
               <p className="text-xs text-neutral-500 leading-relaxed">{s.desc}</p>

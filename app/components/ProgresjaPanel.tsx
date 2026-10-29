@@ -1,8 +1,12 @@
 'use client'
 import { progression, progressChecks } from '../data'
 import { Callout } from './ui'
+import { useTheme } from './ThemeProvider'
 
 export default function ProgresjaPanel() {
+  const { resolvedTheme } = useTheme()
+  const infoBg = resolvedTheme === 'dark' ? 'rgba(59, 130, 246, 0.14)' : '#eff6ff'
+  const infoColor = resolvedTheme === 'dark' ? '#bfdbfe' : '#1e3a8a'
   return (
     <div className="panel-in space-y-4">
       <div className="card">
@@ -13,7 +17,7 @@ export default function ProgresjaPanel() {
           {progression.map(p => (
             <div key={p.weeks} className="flex gap-4">
               <div className="shrink-0 mt-0.5">
-                <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-800 text-xs font-medium flex items-center justify-center">{p.weeks}</div>
+                <div className="w-10 h-10 rounded-full text-xs font-medium flex items-center justify-center" style={{ backgroundColor: infoBg, color: infoColor }}>{p.weeks}</div>
               </div>
               <div>
                 <div className="font-medium text-neutral-900 mb-1">{p.title}</div>

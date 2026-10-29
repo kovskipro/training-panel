@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { schemaA, schemaB, schemaC, schemaD, schemaE, schemaF } from '../data'
 import { ExTable, Callout } from './ui'
 
@@ -48,21 +49,25 @@ export default function SchemataPanel() {
         ))}
       </div>
 
-      <div className="panel-in">
-        <div className="card">
-          <div className="card-hdr">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className={`badge ${s.badge}`}>{s.label}</span>
-                <span className="text-xs text-neutral-400">{s.day} · {s.time}</span>
+      <AnimatePresence mode="wait">
+        <motion.div key={active} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
+          <div className="panel-in">
+            <div className="card">
+              <div className="card-hdr">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`badge ${s.badge}`}>{s.label}</span>
+                    <span className="text-xs text-neutral-400">{s.day} · {s.time}</span>
+                  </div>
+                  <h3 className="font-serif text-2xl text-neutral-900">{s.sub}</h3>
+                </div>
               </div>
-              <h3 className="font-serif text-2xl text-neutral-900">{s.sub}</h3>
+              <ExTable rows={rows} />
+              <Callout kind={co.kind}>{co.text}</Callout>
             </div>
           </div>
-          <ExTable rows={rows} />
-          <Callout kind={co.kind}>{co.text}</Callout>
-        </div>
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }

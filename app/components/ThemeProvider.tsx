@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 export type ThemeMode = 'light' | 'dark' | 'system'
@@ -108,7 +109,13 @@ export function ThemeProvider({ children, initialTheme }: { children: React.Reac
     [theme, resolvedTheme],
   )
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  return (
+    <ThemeContext.Provider value={value}>
+      <motion.div key={resolvedTheme} initial={{ opacity: 0.9 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+        {children}
+      </motion.div>
+    </ThemeContext.Provider>
+  )
 }
 
 export function useTheme() {

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Zap, Calendar, Flame, TrendingUp, Moon, Pill, Monitor, Sun } from 'lucide-react'
 import { useTheme } from './ThemeProvider'
 import SchemataPanel from './SchemataPanel'
@@ -24,13 +25,13 @@ export default function TabNav() {
   return (
     <>
       <div className="theme-sticky sticky top-0 z-10 backdrop-blur-sm border-b border-neutral-200">
-        <div className="max-w-6xl mx-auto px-4 flex justify-between">
+        <div className="max-w-6xl mx-auto flex justify-between">
           <div className="flex gap-0 overflow-x-auto no-scrollbar">
             {tabs.map(tab => (
               <button key={tab.id} onClick={() => setActive(tab.id)}
                 className={`shrink-0 flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm border-b-2 transition-all whitespace-nowrap ${
                   active === tab.id
-                    ? 'border-neutral-900 text-neutral-900 font-medium'
+                    ? 'border-neutral-900 text-neutral-900 font-normal'
                     : 'border-transparent text-neutral-400 hover:text-neutral-800 hover:border-neutral-300'
                 }`}>
                 <tab.Icon size={16} strokeWidth={2} />
@@ -50,7 +51,7 @@ export default function TabNav() {
                 onClick={() => setTheme(value)}
                 aria-label={label}
                 title={label}
-                className={`shrink-0 flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm border-b-2 transition-all whitespace-nowrap ${theme === value ? 'border-neutral-900 text-neutral-900 font-medium' : 'border-transparent text-neutral-400 hover:text-neutral-800 hover:border-neutral-300'}`}
+                className={`shrink-0 flex items-center gap-1.5 px-3 md:px-4 py-3.5 text-sm border-b-2 transition-all whitespace-nowrap ${theme === value ? 'border-neutral-900 text-neutral-900 font-normal' : 'border-transparent text-neutral-400 hover:text-neutral-800 hover:border-neutral-300'}`}
               >
                 <Icon size={16} strokeWidth={2} />
               </button>
@@ -58,13 +59,17 @@ export default function TabNav() {
           </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        {active === 'schematy'    && <SchemataPanel />}
-        {active === 'plan'        && <PlanPanel />}
-        {active === 'rozgrzewka'  && <WarmupPanel />}
-        {active === 'progresja'   && <ProgresjaPanel />}
-        {active === 'regeneracja' && <RegeneracjaPanel />}
-        {active === 'suplementy'  && <SuplementyPanel />}
+      <div className="max-w-6xl mx-auto py-6">
+        <AnimatePresence mode="wait">
+          <motion.div key={active} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
+            {active === 'schematy'    && <SchemataPanel />}
+            {active === 'plan'        && <PlanPanel />}
+            {active === 'rozgrzewka'  && <WarmupPanel />}
+            {active === 'progresja'   && <ProgresjaPanel />}
+            {active === 'regeneracja' && <RegeneracjaPanel />}
+            {active === 'suplementy'  && <SuplementyPanel />}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </>
   )
