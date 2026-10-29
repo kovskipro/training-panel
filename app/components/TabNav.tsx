@@ -38,7 +38,7 @@ export default function TabNav() {
                 <span className="hidden sm:inline">{tab.label}</span>
                 <span className="sm:hidden text-xs">{tab.label.split(' ')[0]}</span>
                 {active === tab.id && (
-                  <motion.div layoutId="tab-underline" className="tab-underline absolute bottom-0 left-2 right-2 h-0.5 rounded-full" />
+                  <motion.div layoutId="tab-underline" className="tab-underline absolute bottom-0 left-0 right-0 h-0.5 rounded-full" />
                 )}
               </button>
             ))}
