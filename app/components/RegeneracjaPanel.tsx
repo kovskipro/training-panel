@@ -1,4 +1,5 @@
 'use client'
+import FooterAnimation from './FooterAnimation'
 import { Callout } from './ui'
 
 const recovery = [
@@ -66,6 +67,11 @@ export default function RegeneracjaPanel() {
           </table>
         </div>
       </div>
+      <FooterAnimation>
+        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
+          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
+        </footer>
+      </FooterAnimation>
     </div>
   )
 }

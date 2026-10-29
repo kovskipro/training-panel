@@ -1,5 +1,6 @@
 'use client'
 import { warmup, cooldown } from '../data'
+import FooterAnimation from './FooterAnimation'
 import { Callout } from './ui'
 
 export default function WarmupPanel() {
@@ -82,6 +83,11 @@ export default function WarmupPanel() {
 
         <Callout kind="safe">Każde rozciąganie statyczne utrzymuj 25–40 sekund. Oddychaj spokojnie. Dodałem rozciąganie bicepsa i przedramienia – ważne przy intensywnym treningu rąk 2× w tygodniu.</Callout>
       </div>
+      <FooterAnimation>
+        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
+          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
+        </footer>
+      </FooterAnimation>
     </div>
   )
 }

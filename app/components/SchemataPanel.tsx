@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { schemaA, schemaB, schemaC, schemaD, schemaE, schemaF } from '../data'
+import FooterAnimation from './FooterAnimation'
 import { ExTable, Callout } from './ui'
 
 const schemas = [
@@ -68,6 +69,11 @@ export default function SchemataPanel() {
           </div>
         </motion.div>
       </AnimatePresence>
+      <FooterAnimation>
+        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
+          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
+        </footer>
+      </FooterAnimation>
     </div>
   )
 }
