@@ -1,6 +1,7 @@
 import { stats } from './data'
 import TabNav from './components/TabNav'
-import { Callout, ThemeLogo } from './components/ui'
+import { Callout } from './components/ui/Callout'
+import { ThemeLogo } from './components/ui/ThemeLogo'
 import AnimatedPage from './components/AnimatedPage'
 
 export default function Home() {

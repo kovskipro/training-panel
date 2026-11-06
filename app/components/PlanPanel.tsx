@@ -1,18 +1,31 @@
 'use client'
 import { weeklyPlan } from '../data'
-import FooterAnimation from './FooterAnimation'
-import { Badge, Callout } from './ui'
+import type { BadgeVariant } from '../data'
+import PanelFooter from './PanelFooter'
+import { Badge } from './ui/Badge'
+import { Callout } from './ui/Callout'
+import { Card } from './ui/Card'
+import { CardHeader } from './ui/CardHeader'
+
+const durationRows: { s: string; badge: BadgeVariant; label: string; focus: string; n: number; t: string }[] = [
+  { s:'A', badge:'b-blue',   label:'Schemat A', focus:'Klatka · Triceps · Barki · Core',         n:7, t:'60–75 min' },
+  { s:'B', badge:'b-teal',   label:'Schemat B', focus:'Plecy · Biceps · Przedramię · Core boczny', n:7, t:'65–80 min' },
+  { s:'C', badge:'b-purple', label:'Schemat C', focus:'Nogi (quad/pośladki) · Core dolny',        n:6, t:'60–70 min' },
+  { s:'D', badge:'b-amber',  label:'Schemat D', focus:'Barki (3 głowy) · Triceps · Plank',        n:7, t:'60–75 min' },
+  { s:'E', badge:'b-red',    label:'Schemat E', focus:'Biceps · Przedramię · HIIT',               n:7, t:'65–80 min' },
+  { s:'F', badge:'b-green',  label:'Schemat F', focus:'Nogi (dwugłowe/łydki) · Core · Cardio',    n:7, t:'70–90 min' },
+]
 
 export default function PlanPanel() {
   return (
     <div className="panel-in space-y-4">
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <div>
             <h3 className="font-serif text-2xl text-neutral-900">6-dniowy plan tygodniowy</h3>
             <p className="text-sm text-neutral-500 mt-0.5">Każda partia mięśniowa ma min. 48 h regeneracji zanim pojawi się ponownie</p>
           </div>
-        </div>
+        </CardHeader>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-4">
           {weeklyPlan.map(row => (
@@ -32,26 +45,19 @@ export default function PlanPanel() {
         <Callout kind="safe">
           <strong>Dlaczego 6 dni działa bez przetrenowania:</strong> Klatka + triceps w poniedziałek → odpoczywają wt/śr/czw → brak bezpośredniego obciążenia do piątku. Biceps ćwiczony wt i pt – 3 dni przerwy. Core codziennie, ale inny rejon (górny, boczny, dolny, plank) – mała objętość per sesja = pełna regeneracja.
         </Callout>
-      </div>
+      </Card>
 
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <h3 className="font-serif text-2xl text-neutral-900">Czas trwania treningów</h3>
-        </div>
+        </CardHeader>
         <div className="tw">
           <table className="dt">
             <thead><tr><th>Schemat</th><th>Partia główna</th><th className="w-20">Ćwiczeń</th><th className="w-28">Czas</th></tr></thead>
             <tbody>
-              {[
-                { s:'A', badge:'b-blue',   label:'Schemat A', focus:'Klatka · Triceps · Barki · Core',         n:7, t:'60–75 min' },
-                { s:'B', badge:'b-teal',   label:'Schemat B', focus:'Plecy · Biceps · Przedramię · Core boczny', n:7, t:'65–80 min' },
-                { s:'C', badge:'b-purple', label:'Schemat C', focus:'Nogi (quad/pośladki) · Core dolny',        n:6, t:'60–70 min' },
-                { s:'D', badge:'b-amber',  label:'Schemat D', focus:'Barki (3 głowy) · Triceps · Plank',        n:7, t:'60–75 min' },
-                { s:'E', badge:'b-red',    label:'Schemat E', focus:'Biceps · Przedramię · HIIT',               n:7, t:'65–80 min' },
-                { s:'F', badge:'b-green',  label:'Schemat F', focus:'Nogi (dwugłowe/łydki) · Core · Cardio',    n:7, t:'70–90 min' },
-              ].map(r => (
+              {durationRows.map(r => (
                 <tr key={r.s}>
-                  <td><Badge v={r.badge as any}>{r.label}</Badge></td>
+                  <td><Badge v={r.badge}>{r.label}</Badge></td>
                   <td className="text-neutral-600">{r.focus}</td>
                   <td className="text-neutral-500">{r.n}</td>
                   <td className="font-medium text-green-700">{r.t}</td>
@@ -61,12 +67,8 @@ export default function PlanPanel() {
           </table>
         </div>
         <Callout kind="info">Łącznie z rozgrzewką (8 min) i schłodzeniem (8 min) każdy trening mieści się w 75–100 min. Przy sprawnym tempie przerw – bliżej 60–75 min.</Callout>
-      </div>
-      <FooterAnimation>
-        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
-          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-        </footer>
-      </FooterAnimation>
+      </Card>
+      <PanelFooter />
     </div>
   )
 }

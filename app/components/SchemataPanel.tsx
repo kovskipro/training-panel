@@ -2,8 +2,16 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { schemaA, schemaB, schemaC, schemaD, schemaE, schemaF } from '../data'
-import FooterAnimation from './FooterAnimation'
-import { ExTable, Callout } from './ui'
+import type { BadgeVariant, Exercise } from '../data'
+import PanelFooter from './PanelFooter'
+import { Button } from './ui/Button'
+import { Callout, type CalloutKind } from './ui/Callout'
+import { Card } from './ui/Card'
+import { CardHeader } from './ui/CardHeader'
+import { ExTable } from './ui/ExTable'
+import { Badge } from './ui/Badge'
+
+type SchemaId = 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
 
 const schemas = [
   { id:'A', label:'Schemat A', sub:'Klatka · Triceps · Core', badge:'b-blue',   day:'Poniedziałek', time:'60–75 min' },
@@ -12,14 +20,14 @@ const schemas = [
   { id:'D', label:'Schemat D', sub:'Barki · Triceps · Plank',    badge:'b-amber',  day:'Czwartek',      time:'60–75 min' },
   { id:'E', label:'Schemat E', sub:'Biceps · Przedramię · HIIT', badge:'b-red',    day:'Piątek',        time:'65–80 min' },
   { id:'F', label:'Schemat F', sub:'Nogi (dwugłowe) · Core · Cardio', badge:'b-green', day:'Sobota',   time:'70–90 min' },
-]
+] satisfies { id: SchemaId; label: string; sub: string; badge: BadgeVariant; day: string; time: string }[]
 
-const data: Record<string, ReturnType<typeof schemaA[0]['id']['valueOf']>[]> = {
-  A: schemaA as any, B: schemaB as any, C: schemaC as any,
-  D: schemaD as any, E: schemaE as any, F: schemaF as any,
+const data: Record<SchemaId, Exercise[]> = {
+  A: schemaA, B: schemaB, C: schemaC,
+  D: schemaD, E: schemaE, F: schemaF,
 }
 
-const callouts: Record<string, {kind:'info'|'safe'|'warn'|'danger'; text: string}> = {
+const callouts: Record<SchemaId, {kind: CalloutKind; text: string}> = {
   A: { kind:'info',  text:'Zacznij od hantli 6–10 kg przy wyciskaniu. Pompki i dips – masa własna. Przerwa 60 s między seriami tego samego ćwiczenia.' },
   B: { kind:'warn',  text:'Wrist curl i reverse wrist curl – zacznij od 2–3 kg. To małe mięśnie, łatwo przeciążyć. Progresja: +0,5–1 kg co 2 tygodnie.' },
   C: { kind:'warn',  text:'Bulgarian split squat: pierwsze 2 tygodnie bez obciążenia. Opanuj technikę i równowagę zanim dodasz ciężar. Ból kolana = sprawdź technikę.' },
@@ -29,9 +37,9 @@ const callouts: Record<string, {kind:'info'|'safe'|'warn'|'danger'; text: string
 }
 
 export default function SchemataPanel() {
-  const [active, setActive] = useState('A')
+  const [active, setActive] = useState<SchemaId>('A')
   const s = schemas.find(x => x.id === active)!
-  const rows = data[active] as any[]
+  const rows = data[active]
   const co = callouts[active]
 
   return (
@@ -39,41 +47,36 @@ export default function SchemataPanel() {
       {/* schema picker */}
       <div className="flex gap-2 mb-5 overflow-x-auto overflow-y-visible no-scrollbar pb-1">
         {schemas.map(s => (
-          <button
+          <Button
             key={s.id}
+            variant={active === s.id ? 'primary' : 'secondary'}
             onClick={() => setActive(s.id)}
-            data-active={active === s.id}
-            className="schema-picker-btn"
           >
             {s.label}
-          </button>
+          </Button>
         ))}
       </div>
 
       <AnimatePresence mode="wait">
         <motion.div key={active} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
           <div className="panel-in">
-            <div className="card">
-              <div className="card-hdr">
+            <Card>
+              <CardHeader>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`badge ${s.badge}`}>{s.label}</span>
+                    <Badge v={s.badge}>{s.label}</Badge>
                     <span className="text-xs text-neutral-400">{s.day} · {s.time}</span>
                   </div>
                   <h3 className="font-serif text-2xl text-neutral-900">{s.sub}</h3>
                 </div>
-              </div>
+              </CardHeader>
               <ExTable rows={rows} />
               <Callout kind={co.kind}>{co.text}</Callout>
-            </div>
+            </Card>
           </div>
         </motion.div>
       </AnimatePresence>
-      <FooterAnimation>
-        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
-          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-        </footer>
-      </FooterAnimation>
+      <PanelFooter />
     </div>
   )
 }

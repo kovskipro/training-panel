@@ -1,7 +1,9 @@
 'use client'
 import { progression, progressChecks } from '../data'
-import FooterAnimation from './FooterAnimation'
-import { Callout } from './ui'
+import PanelFooter from './PanelFooter'
+import { Callout } from './ui/Callout'
+import { Card } from './ui/Card'
+import { CardHeader } from './ui/CardHeader'
 import { useTheme } from './ThemeProvider'
 
 export default function ProgresjaPanel() {
@@ -10,10 +12,10 @@ export default function ProgresjaPanel() {
   const infoColor = resolvedTheme === 'dark' ? 'hsl(210, 100%, 88%)' : 'hsl(222, 47%, 11%)'
   return (
     <div className="panel-in space-y-4">
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <h3 className="font-serif text-2xl text-neutral-900">Progresja 8-tygodniowa</h3>
-        </div>
+        </CardHeader>
         <div className="space-y-4 mb-4">
           {progression.map(p => (
             <div key={p.weeks} className="flex gap-4">
@@ -32,12 +34,12 @@ export default function ProgresjaPanel() {
           <Callout kind="warn">Unikaj ćwiczeń z maksymalnym ciężarem (1RM). W wieku 15 lat płytki wzrostowe są aktywne. Każde ćwiczenie musi pozwalać na min. 6–8 powtórzeń z pełną kontrolą techniczną.</Callout>
           <Callout kind="info">Brzuch widać przez niski % tkanki tłuszczowej, nie tylko przez liczbę ćwiczeń. Core w każdym schemacie + 6 dni treningu + dieta = efekty widoczne po 6–10 tygodniach.</Callout>
         </div>
-      </div>
+      </Card>
 
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <h3 className="font-serif text-2xl text-neutral-900">Kontrola postępów</h3>
-        </div>
+        </CardHeader>
         <div className="md:hidden space-y-3">
           {progressChecks.map((c,i) => (
             <div key={i} className="py-2 border-b border-neutral-100 last:border-0">
@@ -61,12 +63,8 @@ export default function ProgresjaPanel() {
             </tbody>
           </table>
         </div>
-      </div>
-      <FooterAnimation>
-        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
-          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-        </footer>
-      </FooterAnimation>
+      </Card>
+      <PanelFooter />
     </div>
   )
 }

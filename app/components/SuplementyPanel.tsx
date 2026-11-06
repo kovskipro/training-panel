@@ -1,7 +1,10 @@
 'use client'
 import { supplements, suppTimeline, creatineFaq } from '../data'
-import FooterAnimation from './FooterAnimation'
-import { Badge, Callout } from './ui'
+import PanelFooter from './PanelFooter'
+import { Badge } from './ui/Badge'
+import { Callout } from './ui/Callout'
+import { Card } from './ui/Card'
+import { CardHeader } from './ui/CardHeader'
 
 const statusBadge = { ok:'b-green', caution:'b-amber', no:'b-red' } as const
 const statusLabel = { ok:'Zalecane', caution:'Ostrożnie', no:'Nie' } as const
@@ -13,8 +16,8 @@ export default function SuplementyPanel() {
       <Callout kind="danger"><strong>Zastrzeżenie wiekowe:</strong> Większość suplementów pre-workoutowych nie ma badań bezpieczeństwa dla osób poniżej 18 lat. Poniższe zalecenia opierają się na dostępnych danych naukowych. Warto porozmawiać z lekarzem lub dietetykiem sportowym.</Callout>
 
       {/* Overview grid */}
-      <div className="card">
-        <div className="card-hdr"><h3 className="font-serif text-2xl text-neutral-900">Przegląd suplementów</h3></div>
+      <Card>
+        <CardHeader><h3 className="font-serif text-2xl text-neutral-900">Przegląd suplementów</h3></CardHeader>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {supplements.map(s => (
             <div key={s.name} className="bg-white rounded-2xl border border-neutral-200 p-4">
@@ -24,11 +27,11 @@ export default function SuplementyPanel() {
             </div>
           ))}
         </div>
-      </div>
+      </Card>
 
       {/* Timeline */}
-      <div className="card">
-        <div className="card-hdr"><h3 className="font-serif text-2xl text-neutral-900">Harmonogram dzienny</h3></div>
+      <Card>
+        <CardHeader><h3 className="font-serif text-2xl text-neutral-900">Harmonogram dzienny</h3></CardHeader>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-4">
           {suppTimeline.map((t,i) => (
             <div key={i} className="border border-neutral-200 rounded-xl p-3 bg-white">
@@ -44,11 +47,11 @@ export default function SuplementyPanel() {
           <Callout kind="warn"><strong>Twoje zapasy przy 6 treningach/tydz.:</strong> 105 porcji kreatyny (1/dzień) = ~3,5 miesiąca. 60 porcji cytruliniy (6 treningów/tydz.) = ~10 tygodni. Cytrulina skończy się pierwsza – ok. 6 tygodni przed kreatyną.</Callout>
           <Callout kind="info">Wybieraj suplementy z certyfikatem <strong>Informed Sport</strong> lub <strong>NSF Certified for Sport</strong>.</Callout>
         </div>
-      </div>
+      </Card>
 
       {/* Protocol table */}
-      <div className="card">
-        <div className="card-hdr"><h3 className="font-serif text-2xl text-neutral-900">Dawki i protokół</h3></div>
+      <Card>
+        <CardHeader><h3 className="font-serif text-2xl text-neutral-900">Dawki i protokół</h3></CardHeader>
         <div className="md:hidden space-y-3">
           {mainSupps.map(s => (
             <div key={s.name} className="py-3 border-b border-neutral-100 last:border-0">
@@ -78,11 +81,11 @@ export default function SuplementyPanel() {
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
 
       {/* FAQ */}
-      <div className="card">
-        <div className="card-hdr"><h3 className="font-serif text-2xl text-neutral-900">FAQ – Kreatyna u nastolatków</h3></div>
+      <Card>
+        <CardHeader><h3 className="font-serif text-2xl text-neutral-900">FAQ – Kreatyna u nastolatków</h3></CardHeader>
         <div className="space-y-0">
           {creatineFaq.map((f,i) => (
             <div key={i} className="py-3 border-b border-neutral-100 last:border-0">
@@ -91,12 +94,8 @@ export default function SuplementyPanel() {
             </div>
           ))}
         </div>
-      </div>
-      <FooterAnimation>
-        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
-          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-        </footer>
-      </FooterAnimation>
+      </Card>
+      <PanelFooter />
     </div>
   )
 }

@@ -1,6 +1,8 @@
 'use client'
-import FooterAnimation from './FooterAnimation'
-import { Callout } from './ui'
+import PanelFooter from './PanelFooter'
+import { Callout } from './ui/Callout'
+import { Card } from './ui/Card'
+import { CardHeader } from './ui/CardHeader'
 
 const recovery = [
   { topic:'Sen', rec:'8–10 godzin dziennie', why:'W nocy wydzielany jest hormon wzrostu – kluczowy dla budowy mięśni i regeneracji po 6 treningach tygodniowo.' },
@@ -21,10 +23,10 @@ const nutrition = [
 export default function RegeneracjaPanel() {
   return (
     <div className="panel-in space-y-4">
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <h3 className="font-serif text-2xl text-neutral-900">Sen i regeneracja</h3>
-        </div>
+        </CardHeader>
         <div className="space-y-0">
           {recovery.map((r,i) => (
             <div key={i} className="grid md:grid-cols-3 gap-1 md:gap-4 py-3 border-b border-neutral-100 last:border-0">
@@ -34,12 +36,12 @@ export default function RegeneracjaPanel() {
             </div>
           ))}
         </div>
-      </div>
+      </Card>
 
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <h3 className="font-serif text-2xl text-neutral-900">Odżywianie – praktyczne wskazówki</h3>
-        </div>
+        </CardHeader>
         <div className="mb-4">
           <Callout kind="warn">Nie stosuj restrykcyjnych diet kalorycznych – organizm jest w fazie wzrostu i trenuje 6 dni w tygodniu. BMI 20,5 to norma. Zadbaj o jakość jedzenia i odpowiednie białko.</Callout>
         </div>
@@ -66,12 +68,8 @@ export default function RegeneracjaPanel() {
             </tbody>
           </table>
         </div>
-      </div>
-      <FooterAnimation>
-        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
-          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-        </footer>
-      </FooterAnimation>
+      </Card>
+      <PanelFooter />
     </div>
   )
 }
