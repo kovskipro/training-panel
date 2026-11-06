@@ -33,8 +33,9 @@ app/
 ├── globals.css         # Tailwind + custom klasy (badge, callout, dt)
 ├── data.ts             # Wszystkie dane: 6 schematów, suplementy, progresja
 └── components/
+    ├── ui/              # Badge, Callout, ExTable, Card i inne współdzielone komponenty
+    ├── PanelFooter.tsx  # Wspólna stopka paneli
     ├── TabNav.tsx       # Nawigacja 6 zakładkami (client)
-    ├── ui.tsx           # Badge, Callout, ExTable (shared)
     ├── SchemataPanel.tsx # Schematy A–F z przełącznikiem
     ├── PlanPanel.tsx    # Plan tygodniowy + czasy treningów
     ├── WarmupPanel.tsx  # Rozgrzewka i schłodzenie

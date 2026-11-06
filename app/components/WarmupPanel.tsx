@@ -1,18 +1,20 @@
 'use client'
 import { warmup, cooldown } from '../data'
-import FooterAnimation from './FooterAnimation'
-import { Callout } from './ui'
+import PanelFooter from './PanelFooter'
+import { Callout } from './ui/Callout'
+import { Card } from './ui/Card'
+import { CardHeader } from './ui/CardHeader'
 
 export default function WarmupPanel() {
   return (
     <div className="panel-in space-y-4">
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <div>
             <h3 className="font-serif text-2xl text-neutral-900">Rozgrzewka ogólna</h3>
             <p className="text-sm text-neutral-500 mt-0.5">8 minut · przed każdym z 6 treningów</p>
           </div>
-        </div>
+        </CardHeader>
 
         <div className="md:hidden divide-y divide-neutral-100 mb-4">
           {warmup.map((e,i) => (
@@ -42,15 +44,15 @@ export default function WarmupPanel() {
         </div>
 
         <Callout kind="warn">Rozgrzewka = podniesienie temperatury i uruchomienie stawów – bez rozciągania statycznego przed treningiem. Rozciąganie statyczne zostaw wyłącznie na koniec.</Callout>
-      </div>
+      </Card>
 
-      <div className="card">
-        <div className="card-hdr">
+      <Card>
+        <CardHeader>
           <div>
             <h3 className="font-serif text-2xl text-neutral-900">Schłodzenie i rozciąganie</h3>
             <p className="text-sm text-neutral-500 mt-0.5">8 minut · po każdym treningu</p>
           </div>
-        </div>
+        </CardHeader>
 
         <div className="md:hidden divide-y divide-neutral-100 mb-4">
           {cooldown.map((e,i) => (
@@ -82,12 +84,8 @@ export default function WarmupPanel() {
         </div>
 
         <Callout kind="safe">Każde rozciąganie statyczne utrzymuj 25–40 sekund. Oddychaj spokojnie. Dodałem rozciąganie bicepsa i przedramienia – ważne przy intensywnym treningu rąk 2× w tygodniu.</Callout>
-      </div>
-      <FooterAnimation>
-        <footer className="max-w-6xl mx-auto px-4 py-8 mt-6">
-          <p className="text-xs text-neutral-300 text-center">Plan treningowy · oparty na wytycznych AAP, NSCA, WHO · Przed zmianą suplementacji skonsultuj się z lekarzem</p>
-        </footer>
-      </FooterAnimation>
+      </Card>
+      <PanelFooter />
     </div>
   )
 }
