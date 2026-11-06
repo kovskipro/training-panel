@@ -4,6 +4,18 @@ import { useTheme } from '../ThemeProvider'
 
 export function ThemeLogo() {
   const { resolvedTheme } = useTheme()
-  const logoSrc = resolvedTheme === 'dark' ? '/logo.svg' : '/logo-dark.svg'
-  return <img src={logoSrc} alt="Logo" className="h-9" />
+  const logoColor = resolvedTheme === 'dark' ? '#fff' : '#1a1a1a'
+
+  return (
+    <span
+      role="img"
+      aria-label="Logo"
+      className="block h-9 w-9"
+      style={{
+        backgroundColor: logoColor,
+        mask: "url('/logo.svg') center / contain no-repeat",
+        WebkitMask: "url('/logo.svg') center / contain no-repeat",
+      }}
+    />
+  )
 }
