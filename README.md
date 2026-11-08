@@ -21,9 +21,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
 ## Konta użytkowników
 
 - Logowanie e-mail + hasło (Supabase Auth), bez rejestracji: `/login` jest domyślnym ekranem dla niezalogowanych, `/` wymaga sesji.
+- Ekran logowania działa w dwóch krokach: najpierw e-mail (`Kontynuuj z e-mailem`), potem hasło. Zły format adresu i brak konta pokazują czerwony callout bez przejścia dalej; błędne hasło pokazuje ten sam typ komunikatu.
 - Sesja trzymana w cookies i odświeżana w `middleware.ts`.
 - Dane konta w Postgresie (RLS – każdy widzi tylko swoje wiersze): `profiles` (imię, waga, wzrost) i `workout_schemas` (schematy A–F). E-mail i hasło są wyłącznie w `auth.users`.
 - Nowe konto dodaje się w panelu Supabase (Authentication → Users); profil tworzy trigger `on_auth_user_created`.
+- Sprawdzenie, czy e-mail ma konto, robi funkcja `public.email_has_account(text)` (`SECURITY DEFINER`, bo rola `anon` nie czyta `auth.users`). Zwraca tylko `true`/`false`. **Świadomy kompromis:** dzięki temu formularz pozwala ustalić, które adresy mają konto (user enumeration). Jest to zamierzone – ekran logowania i tak jest publiczny – ale nie należy go używać tam, gdzie istnienie konta jest danymi wrażliwymi.
 
 ## Deploy na Vercel
 
@@ -44,7 +46,7 @@ vercel
 middleware.ts           # Odświeżanie sesji Supabase + brama /login
 lib/
 ├── supabase/           # serwerowy klient Supabase + typy bazy
-└── auth/               # server actions: signIn / signOut
+└── auth/               # server actions: checkEmail / signIn / signOut
 app/
 ├── layout.tsx          # Root layout + Google Fonts
 ├── login/              # ekran logowania (default dla niezalogowanych)
