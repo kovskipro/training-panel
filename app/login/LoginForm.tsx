@@ -4,10 +4,11 @@ import { useState, type FormEvent } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import { Button } from '../components/ui/Button'
 import { Callout } from '../components/ui/Callout'
-import { checkEmail, signIn, type LoginState } from '../../lib/auth/actions'
-import { isValidEmail } from '../../lib/auth/email'
+import { signIn, type LoginState } from '../../lib/auth/actions'
 
 const initialState: LoginState = {}
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const inputClass =
   'w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 transition-colors focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-300/70'
@@ -84,36 +85,26 @@ export default function LoginForm() {
   const [step, setStep] = useState<1 | 2>(1)
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [checking, setChecking] = useState(false)
 
-  async function handleEmailSubmit(event: FormEvent<HTMLFormElement>) {
+  /**
+   * Only the address format is checked here. Whether an account exists is never
+   * revealed before the password step — otherwise the form could be used to
+   * enumerate accounts. Supabase answers the same generic error for a wrong
+   * password and for an unknown address, so both cases look identical.
+   */
+  function handleEmailSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError(null)
 
     const value = email.trim().toLowerCase()
 
-    if (!isValidEmail(value)) {
-      setError('To nie wygląda na poprawny adres e-mail. Sprawdź, czy zawiera „@” i domenę.')
+    if (!EMAIL_PATTERN.test(value)) {
+      setError('Nieprawidłowy adres e-mail. Sprawdź, czy zawiera „@” i domenę.')
       return
     }
 
-    setChecking(true)
-
-    try {
-      const result = await checkEmail(value)
-
-      if (result.error) {
-        setError(result.error)
-        return
-      }
-
-      setEmail(value)
-      setStep(2)
-    } catch {
-      setError('Nie udało się sprawdzić adresu e-mail. Spróbuj ponownie.')
-    } finally {
-      setChecking(false)
-    }
+    setEmail(value)
+    setStep(2)
   }
 
   function handleEmailChange(value: string) {
@@ -159,8 +150,8 @@ export default function LoginForm() {
         </div>
       )}
 
-      <Button type="submit" variant="primary" disabled={checking} className={submitButtonClass}>
-        {checking ? 'Sprawdzam…' : 'Kontynuuj z e-mailem'}
+      <Button type="submit" variant="primary" className={submitButtonClass}>
+        Kontynuuj z e-mailem
       </Button>
     </form>
   )
