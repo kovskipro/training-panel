@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { schemaA, schemaB, schemaC, schemaD, schemaE, schemaF } from '../data'
 import type { BadgeVariant, Exercise } from '../data'
+import type { SchemaViewModel } from '../types'
 import PanelFooter from './PanelFooter'
 import { Button } from './ui/Button'
 import { Callout, type CalloutKind } from './ui/Callout'
@@ -13,7 +14,7 @@ import { Badge } from './ui/Badge'
 
 type SchemaId = 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
 
-const schemas = [
+const schemaMeta = [
   { id:'A', label:'Schemat A', sub:'Klatka · Triceps · Core', badge:'b-blue',   day:'Poniedziałek', time:'60–75 min' },
   { id:'B', label:'Schemat B', sub:'Plecy · Biceps · Przedramię', badge:'b-teal',   day:'Wtorek',       time:'65–80 min' },
   { id:'C', label:'Schemat C', sub:'Nogi (quad) · Core dolny',   badge:'b-purple', day:'Środa',         time:'60–70 min' },
@@ -36,42 +37,52 @@ const callouts: Record<SchemaId, {kind: CalloutKind; text: string}> = {
   F: { kind:'info',  text:'Sobota to najdłuższy trening. Nordic curl + RDL to duże ćwiczenia – daj 90 s po nordic curl. Cardio finisher na samym końcu.' },
 }
 
-export default function SchemataPanel() {
-  const [active, setActive] = useState<SchemaId>('A')
-  const s = schemas.find(x => x.id === active)!
-  const rows = data[active]
-  const co = callouts[active]
+const fallbackSchemas: SchemaViewModel[] = schemaMeta.map(s => ({
+  code: s.id,
+  dayLabel: s.day,
+  subtitle: s.sub,
+  badge: s.badge,
+  duration: s.time,
+  calloutKind: callouts[s.id].kind,
+  calloutText: callouts[s.id].text,
+  exercises: data[s.id],
+}))
+
+export default function SchemataPanel({ schemas }: { schemas?: SchemaViewModel[] }) {
+  const items = schemas && schemas.length > 0 ? schemas : fallbackSchemas
+  const [active, setActive] = useState(items[0].code)
+  const s = items.find(item => item.code === active) ?? items[0]
 
   return (
     <div>
       {/* schema picker */}
       <div className="flex gap-2 mb-5 overflow-x-auto overflow-y-visible no-scrollbar pb-1">
-        {schemas.map(s => (
+        {items.map(item => (
           <Button
-            key={s.id}
-            variant={active === s.id ? 'primary' : 'secondary'}
-            onClick={() => setActive(s.id)}
+            key={item.code}
+            variant={s.code === item.code ? 'primary' : 'secondary'}
+            onClick={() => setActive(item.code)}
           >
-            {s.label}
+            Schemat {item.code}
           </Button>
         ))}
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div key={active} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
+        <motion.div key={s.code} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
           <div className="panel-in">
             <Card>
               <CardHeader>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Badge v={s.badge}>{s.label}</Badge>
-                    <span className="text-xs text-neutral-400">{s.day} · {s.time}</span>
+                    <Badge v={s.badge}>Schemat {s.code}</Badge>
+                    <span className="text-xs text-neutral-400">{s.dayLabel} · {s.duration}</span>
                   </div>
-                  <h3 className="font-serif text-2xl text-neutral-900">{s.sub}</h3>
+                  <h3 className="font-serif text-2xl text-neutral-900">{s.subtitle}</h3>
                 </div>
               </CardHeader>
-              <ExTable rows={rows} />
-              <Callout kind={co.kind}>{co.text}</Callout>
+              <ExTable rows={s.exercises} />
+              <Callout kind={s.calloutKind}>{s.calloutText}</Callout>
             </Card>
           </div>
         </motion.div>
