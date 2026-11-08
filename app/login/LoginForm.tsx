@@ -29,7 +29,7 @@ export default function LoginForm() {
   const [state, formAction] = useFormState(signIn, initialState)
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form action={formAction} className="flex flex-col gap-4">
       <div>
         <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-neutral-500">
           E-mail
