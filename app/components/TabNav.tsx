@@ -44,6 +44,7 @@ export default function TabNav({ schemas }: { schemas?: SchemaViewModel[] }) {
                 )}
               </button>
             ))}
+            <LogoutButton />
           </div>
           <div className="flex gap-0 shrink-0">
             {[
@@ -64,9 +65,6 @@ export default function TabNav({ schemas }: { schemas?: SchemaViewModel[] }) {
                 )}
               </button>
             ))}
-            <div className="ml-1 flex items-center border-l border-neutral-200 pl-1">
-              <LogoutButton />
-            </div>
           </div>
         </div>
       </div>
