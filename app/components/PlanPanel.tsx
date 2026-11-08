@@ -1,6 +1,7 @@
 'use client'
 import { weeklyPlan } from '../data'
 import type { BadgeVariant } from '../data'
+import type { SchemaViewModel } from '../types'
 import PanelFooter from './PanelFooter'
 import { Badge } from './ui/Badge'
 import { Callout } from './ui/Callout'
@@ -16,7 +17,19 @@ const durationRows: { s: string; badge: BadgeVariant; label: string; focus: stri
   { s:'F', badge:'b-green',  label:'Schemat F', focus:'Nogi (dwugłowe/łydki) · Core · Cardio',    n:7, t:'70–90 min' },
 ]
 
-export default function PlanPanel() {
+export default function PlanPanel({ schemas }: { schemas?: SchemaViewModel[] }) {
+  const rows: typeof durationRows =
+    schemas && schemas.length > 0
+      ? schemas.map(schema => ({
+          s: schema.code,
+          badge: schema.badge,
+          label: `Schemat ${schema.code}`,
+          focus: schema.subtitle,
+          n: schema.exercises.length,
+          t: schema.duration,
+        }))
+      : durationRows
+
   return (
     <div className="panel-in space-y-4">
       <Card>
@@ -55,7 +68,7 @@ export default function PlanPanel() {
           <table className="dt">
             <thead><tr><th>Schemat</th><th>Partia główna</th><th className="w-20">Ćwiczeń</th><th className="w-28">Czas</th></tr></thead>
             <tbody>
-              {durationRows.map(r => (
+              {rows.map(r => (
                 <tr key={r.s}>
                   <td><Badge v={r.badge}>{r.label}</Badge></td>
                   <td className="text-neutral-600">{r.focus}</td>

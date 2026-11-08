@@ -3,8 +3,10 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Zap, Calendar, Flame, TrendingUp, Moon, Pill, Monitor, Sun } from 'lucide-react'
 import { useTheme } from './ThemeProvider'
+import type { SchemaViewModel } from '../types'
 import SchemataPanel from './SchemataPanel'
 import PlanPanel from './PlanPanel'
+import LogoutButton from './LogoutButton'
 import WarmupPanel from './WarmupPanel'
 import ProgresjaPanel from './ProgresjaPanel'
 import RegeneracjaPanel from './RegeneracjaPanel'
@@ -19,7 +21,7 @@ const tabs = [
   { id:'suplementy',  label:'Suplementy',      Icon: Pill },
 ]
 
-export default function TabNav() {
+export default function TabNav({ schemas }: { schemas?: SchemaViewModel[] }) {
   const [active, setActive] = useState('schematy')
   const { theme, setTheme } = useTheme()
   return (
@@ -62,14 +64,17 @@ export default function TabNav() {
                 )}
               </button>
             ))}
+            <div className="ml-1 flex items-center border-l border-neutral-200 pl-1">
+              <LogoutButton />
+            </div>
           </div>
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-4 py-6">
         <AnimatePresence mode="wait">
           <motion.div key={active} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
-            {active === 'schematy'    && <SchemataPanel />}
-            {active === 'plan'        && <PlanPanel />}
+            {active === 'schematy'    && <SchemataPanel schemas={schemas} />}
+            {active === 'plan'        && <PlanPanel schemas={schemas} />}
             {active === 'rozgrzewka'  && <WarmupPanel />}
             {active === 'progresja'   && <ProgresjaPanel />}
             {active === 'regeneracja' && <RegeneracjaPanel />}

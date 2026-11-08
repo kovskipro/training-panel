@@ -11,6 +11,20 @@ npm run dev
 ```
 Otwórz http://localhost:3000
 
+Wymagane zmienne w `.env.local` (projekt Supabase):
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
+```
+
+## Konta użytkowników
+
+- Logowanie e-mail + hasło (Supabase Auth), bez rejestracji: `/login` jest domyślnym ekranem dla niezalogowanych, `/` wymaga sesji.
+- Sesja trzymana w cookies i odświeżana w `middleware.ts`.
+- Dane konta w Postgresie (RLS – każdy widzi tylko swoje wiersze): `profiles` (imię, waga, wzrost) i `workout_schemas` (schematy A–F). E-mail i hasło są wyłącznie w `auth.users`.
+- Nowe konto dodaje się w panelu Supabase (Authentication → Users); profil tworzy trigger `on_auth_user_created`.
+
 ## Deploy na Vercel
 
 ### GitHub (zalecane)
@@ -27,8 +41,13 @@ vercel
 ## Struktura
 
 ```
+middleware.ts           # Odświeżanie sesji Supabase + brama /login
+lib/
+├── supabase/           # serwerowy klient Supabase + typy bazy
+└── auth/               # server actions: signIn / signOut
 app/
 ├── layout.tsx          # Root layout + Google Fonts
+├── login/              # ekran logowania (default dla niezalogowanych)
 ├── page.tsx            # Strona główna z headerem i statystykami
 ├── globals.css         # Tailwind + custom klasy (badge, callout, dt)
 ├── data.ts             # Wszystkie dane: 6 schematów, suplementy, progresja
