@@ -56,7 +56,11 @@ function toExercises(value: Json): Exercise[] {
   return Array.isArray(value) ? value.filter(isExercise) : []
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { tab?: string; link?: string; unlink?: string }
+}) {
   const supabase = createClient()
   const {
     data: { user },
@@ -108,6 +112,18 @@ export default async function Home() {
     exercises: toExercises(row.exercises),
   }))
 
+  const identities = user.identities ?? []
+  const notice =
+    searchParams.link === 'error'
+      ? 'Nie udało się połączyć konta Google. Ten adres Google jest już przypisany do innego konta.'
+      : searchParams.unlink === 'ok'
+        ? 'Konto Google zostało odłączone.'
+        : searchParams.unlink === 'blocked'
+          ? 'To jedyny sposób logowania na tym koncie — najpierw ustaw hasło.'
+          : searchParams.unlink === 'error'
+            ? 'Nie udało się odłączyć konta Google. Spróbuj ponownie.'
+            : undefined
+
   return (
     <AnimatedPage>
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-6">
@@ -133,7 +149,20 @@ export default async function Home() {
           <strong>Podejście rekompozycji:</strong> Przy BMI {bmi} i 15 latach organizm doskonale toleruje jednoczesną redukcję tłuszczu i budowę mięśni. 6 treningów z rotacją partii mięśniowych zapewnia max efektywność bez ryzyka przetrenowania. Każda partia ma min. 48 h regeneracji.
         </Callout>
       </div>
-      <TabNav schemas={schemas} />
+      <TabNav
+        schemas={schemas}
+        initialTab={searchParams.tab}
+        account={{
+          fullName: profile?.full_name?.trim() || 'Brak nazwy',
+          weightKg: weight,
+          heightCm: height,
+          email: user.email ?? '—',
+          hasGoogle: identities.some(identity => identity.provider === 'google'),
+          canUnlinkGoogle: identities.length > 1,
+          notice,
+          noticeKind: searchParams.unlink === 'ok' ? 'safe' : 'danger',
+        }}
+      />
 
     </AnimatedPage>
   )

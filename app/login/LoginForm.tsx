@@ -1,23 +1,17 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
+import GoogleAuthButton from '../components/GoogleAuthButton'
 import { Button } from '../components/ui/Button'
 import { Callout } from '../components/ui/Callout'
+import { alertClass, inputClass, labelClass, submitButtonClass } from '../components/ui/form'
 import { signIn, type LoginState } from '../../lib/auth/actions'
 
 const initialState: LoginState = {}
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-const inputClass =
-  'w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 transition-colors focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-300/70'
-
-const submitButtonClass =
-  'w-full justify-center py-2.5 disabled:cursor-not-allowed disabled:opacity-60'
-
-// Callout renders its own margin-top, which the form's gap already provides.
-const alertClass = '-mt-4'
 
 function PasswordSubmitButton() {
   const { pending } = useFormStatus()
@@ -55,7 +49,7 @@ function PasswordStep({ email, onBack }: { email: string; onBack: () => void }) 
       </div>
 
       <div>
-        <label htmlFor="password" className="mb-1.5 block text-xs font-medium text-neutral-500">
+        <label htmlFor="password" className={labelClass}>
           Hasło
         </label>
         <input
@@ -77,14 +71,21 @@ function PasswordStep({ email, onBack }: { email: string; onBack: () => void }) 
       )}
 
       <PasswordSubmitButton />
+
+      <p className="text-center text-sm text-neutral-500">
+        Nie pamiętasz hasła?{' '}
+        <Link href="/forgot-password" className="underline underline-offset-2 hover:text-neutral-900">
+          Ustaw nowe
+        </Link>
+      </p>
     </form>
   )
 }
 
-export default function LoginForm() {
+export default function LoginForm({ initialError }: { initialError?: string }) {
   const [step, setStep] = useState<1 | 2>(1)
   const [email, setEmail] = useState('')
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(initialError ?? null)
 
   /**
    * Only the address format is checked here. Whether an account exists is never
@@ -125,34 +126,51 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleEmailSubmit} noValidate className="flex flex-col gap-4">
-      <div>
-        <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-neutral-500">
-          E-mail
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          autoFocus
-          value={email}
-          onChange={event => handleEmailChange(event.target.value)}
-          aria-invalid={error ? true : undefined}
-          className={inputClass}
-        />
+    <div className="flex flex-col gap-4">
+      <form onSubmit={handleEmailSubmit} noValidate className="flex flex-col gap-4">
+        <div>
+          <label htmlFor="email" className={labelClass}>
+            E-mail
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            autoFocus
+            value={email}
+            onChange={event => handleEmailChange(event.target.value)}
+            aria-invalid={error ? true : undefined}
+            className={inputClass}
+          />
+        </div>
+
+        {error && (
+          <div role="alert" aria-live="polite" className={alertClass}>
+            <Callout kind="danger">{error}</Callout>
+          </div>
+        )}
+
+        <Button type="submit" variant="primary" className={submitButtonClass}>
+          Kontynuuj z e-mailem
+        </Button>
+      </form>
+
+      <div className="flex items-center gap-3">
+        <span className="h-px flex-1 bg-neutral-200" />
+        <span className="text-xs uppercase tracking-widest text-neutral-400">lub</span>
+        <span className="h-px flex-1 bg-neutral-200" />
       </div>
 
-      {error && (
-        <div role="alert" aria-live="polite" className={alertClass}>
-          <Callout kind="danger">{error}</Callout>
-        </div>
-      )}
+      <GoogleAuthButton />
 
-      <Button type="submit" variant="primary" className={submitButtonClass}>
-        Kontynuuj z e-mailem
-      </Button>
-    </form>
+      <p className="text-center text-sm text-neutral-500">
+        Nie masz konta?{' '}
+        <Link href="/signup" className="underline underline-offset-2 hover:text-neutral-900">
+          Zarejestruj się
+        </Link>
+      </p>
+    </div>
   )
 }
