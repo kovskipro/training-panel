@@ -115,11 +115,7 @@ export default function SignupPage() {
           <SubmitButton disabled={CAPTCHA_ENABLED && !captchaToken} />
         </form>
 
-        <div className="flex items-center gap-3">
-          <span className="h-px flex-1 bg-neutral-200" />
-          <span className="text-xs uppercase tracking-widest text-neutral-400">lub</span>
-          <span className="h-px flex-1 bg-neutral-200" />
-        </div>
+        <div className="text-center text-xs uppercase tracking-widest text-neutral-400">lub</div>
 
         <GoogleAuthButton label="Kontynuuj z Google" />
 
