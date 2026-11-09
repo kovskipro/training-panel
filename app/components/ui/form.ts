@@ -5,6 +5,3 @@ export const labelClass = 'mb-1.5 block text-xs font-medium text-neutral-500'
 
 export const submitButtonClass =
   'w-full justify-center py-2.5 disabled:cursor-not-allowed disabled:opacity-60'
-
-/** Callout renders its own margin-top, which a flex gap already provides. */
-export const alertClass = '-mt-4'

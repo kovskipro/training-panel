@@ -7,7 +7,7 @@ import AuthShell from '../components/AuthShell'
 import TurnstileWidget, { CAPTCHA_ENABLED } from '../components/TurnstileWidget'
 import { Button } from '../components/ui/Button'
 import { Callout } from '../components/ui/Callout'
-import { alertClass, inputClass, labelClass, submitButtonClass } from '../components/ui/form'
+import { inputClass, labelClass, submitButtonClass } from '../components/ui/form'
 import { requestPasswordReset, type ResetState } from '../../lib/auth/actions'
 
 const initialState: ResetState = {}
@@ -39,7 +39,7 @@ export default function ForgotPasswordPage() {
     >
       <div className="flex flex-col gap-4">
         {state.sent ? (
-          <Callout kind="safe">
+          <Callout kind="safe" flush>
             Jeśli konto istnieje, wysłaliśmy wiadomość z linkiem. Otwórz go, aby ustawić hasło.
             Tym sposobem ustawisz też hasło na koncie, które dotąd logowało się tylko przez Google.
           </Callout>
@@ -61,8 +61,8 @@ export default function ForgotPasswordPage() {
             </div>
 
             {state.error && (
-              <div role="alert" aria-live="polite" className={alertClass}>
-                <Callout kind="danger">{state.error}</Callout>
+              <div role="alert" aria-live="polite">
+                <Callout kind="danger" flush>{state.error}</Callout>
               </div>
             )}
 

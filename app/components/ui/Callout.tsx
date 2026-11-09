@@ -20,7 +20,16 @@ const calloutPalette: Record<'light' | 'dark', Record<CalloutKind, CSSProperties
   },
 }
 
-export function Callout({ kind, children }: { kind: CalloutKind; children: ReactNode }) {
+export function Callout({
+  kind,
+  children,
+  flush = false,
+}: {
+  kind: CalloutKind
+  children: ReactNode
+  /** Drop the built-in top margin when the parent already spaces its children. */
+  flush?: boolean
+}) {
   const { resolvedTheme } = useTheme()
 
   return (
@@ -28,7 +37,7 @@ export function Callout({ kind, children }: { kind: CalloutKind; children: React
       className={`co co-${kind}`}
       style={{
         display: 'block',
-        marginTop: '1rem',
+        marginTop: flush ? 0 : '1rem',
         padding: '0.75rem 1rem',
         fontSize: '0.95rem',
         lineHeight: 1.7,

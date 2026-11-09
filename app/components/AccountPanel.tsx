@@ -6,7 +6,7 @@ import { Button } from './ui/Button'
 import { Callout } from './ui/Callout'
 import { Card } from './ui/Card'
 import { CardHeader } from './ui/CardHeader'
-import { alertClass, inputClass, labelClass } from './ui/form'
+import { inputClass, labelClass } from './ui/form'
 import { linkGoogle, unlinkGoogle, updateProfile, type ProfileState } from '../../lib/account/actions'
 import { signOut } from '../../lib/auth/actions'
 
@@ -141,14 +141,14 @@ export default function AccountPanel({ account }: { account: AccountData }) {
           </div>
 
           {state.error && (
-            <div role="alert" aria-live="polite" className={alertClass}>
-              <Callout kind="danger">{state.error}</Callout>
+            <div role="alert" aria-live="polite">
+              <Callout kind="danger" flush>{state.error}</Callout>
             </div>
           )}
 
           {state.saved && (
-            <div role="status" aria-live="polite" className={alertClass}>
-              <Callout kind="safe">
+            <div role="status" aria-live="polite">
+              <Callout kind="safe" flush>
                 Zapisano zmiany. Statystyki na stronie głównej są już zaktualizowane.
               </Callout>
             </div>

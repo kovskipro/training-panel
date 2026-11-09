@@ -223,3 +223,10 @@ html[data-theme='dark'] .theme-toggle-label {
   color: var(--text-dim);
 }
 
+
+/* Self-hosted fonts (app/fonts.css). Keeps the Tailwind font stack working. */
+:root {
+  --font-serif: 'Instrument Serif';
+  --font-sans: 'DM Sans';
+  --font-mono: 'DM Mono';
+}
