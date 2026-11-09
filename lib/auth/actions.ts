@@ -161,7 +161,12 @@ export async function updatePassword(_prev: LoginState, formData: FormData): Pro
     return { error: 'Link wygasł. Poproś o nowy.' }
   }
 
-  const { error } = await supabase.auth.updateUser({ password })
+  const { error } = await supabase.auth.updateUser({
+    password,
+    // Supabase does not create an `email` identity when a password is added to
+    // an OAuth account, so remember the fact explicitly instead of guessing.
+    data: { password_set: true },
+  })
 
   if (error) {
     return { error: 'Nie udało się ustawić hasła. Spróbuj ponownie.' }
