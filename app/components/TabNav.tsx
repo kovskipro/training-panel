@@ -1,12 +1,12 @@
 'use client'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Zap, Calendar, Flame, TrendingUp, Moon, Pill, Monitor, Sun } from 'lucide-react'
+import { Zap, Calendar, Flame, TrendingUp, Moon, Pill, User, Monitor, Sun } from 'lucide-react'
 import { useTheme } from './ThemeProvider'
 import type { SchemaViewModel } from '../types'
 import SchemataPanel from './SchemataPanel'
 import PlanPanel from './PlanPanel'
-import LogoutButton from './LogoutButton'
+import AccountPanel, { type AccountData } from './AccountPanel'
 import WarmupPanel from './WarmupPanel'
 import ProgresjaPanel from './ProgresjaPanel'
 import RegeneracjaPanel from './RegeneracjaPanel'
@@ -19,10 +19,21 @@ const tabs = [
   { id:'progresja',   label:'Progresja',       Icon: TrendingUp },
   { id:'regeneracja', label:'Regeneracja',     Icon: Moon },
   { id:'suplementy',  label:'Suplementy',      Icon: Pill },
+  { id:'konto',       label:'Konto',           Icon: User },
 ]
 
-export default function TabNav({ schemas }: { schemas?: SchemaViewModel[] }) {
-  const [active, setActive] = useState('schematy')
+export default function TabNav({
+  schemas,
+  account,
+  initialTab,
+}: {
+  schemas?: SchemaViewModel[]
+  account: AccountData
+  initialTab?: string
+}) {
+  const [active, setActive] = useState(
+    initialTab && tabs.some(tab => tab.id === initialTab) ? initialTab : 'schematy',
+  )
   const { theme, setTheme } = useTheme()
   return (
     <>
@@ -44,7 +55,6 @@ export default function TabNav({ schemas }: { schemas?: SchemaViewModel[] }) {
                 )}
               </button>
             ))}
-            <LogoutButton />
           </div>
           <div className="flex gap-0 shrink-0">
             {[
@@ -77,6 +87,7 @@ export default function TabNav({ schemas }: { schemas?: SchemaViewModel[] }) {
             {active === 'progresja'   && <ProgresjaPanel />}
             {active === 'regeneracja' && <RegeneracjaPanel />}
             {active === 'suplementy'  && <SuplementyPanel />}
+            {active === 'konto'       && <AccountPanel account={account} />}
           </motion.div>
         </AnimatePresence>
       </div>

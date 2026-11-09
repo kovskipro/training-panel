@@ -56,7 +56,11 @@ function toExercises(value: Json): Exercise[] {
   return Array.isArray(value) ? value.filter(isExercise) : []
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { tab?: string; link?: string; unlink?: string }
+}) {
   const supabase = createClient()
   const {
     data: { user },
@@ -80,18 +84,24 @@ export default async function Home() {
 
   const fullName = profile?.full_name?.trim()
   const firstName = fullName ? fullName.split(/\s+/)[0] : null
-  const weight = profile?.weight_kg ?? 68
-  const height = profile?.height_cm ?? 182
-  const bmi = (weight / ((height / 100) ** 2)).toFixed(1).replace('.', ',')
+
+  // A freshly registered account has no measurements yet. Never invent numbers:
+  // showing another person's defaults would be wrong for every new user.
+  const weight = profile?.weight_kg ?? null
+  const height = profile?.height_cm ?? null
+  const hasMeasurements = weight !== null && height !== null
+  const bmi = hasMeasurements
+    ? (Number(weight) / (Number(height) / 100) ** 2).toFixed(1).replace('.', ',')
+    : null
 
   const heroStats = stats.map(stat => {
     switch (stat.label) {
       case 'Waga':
-        return { ...stat, value: `${String(weight).replace('.', ',')} kg` }
+        return { ...stat, value: weight === null ? '—' : `${String(weight).replace('.', ',')} kg` }
       case 'Wzrost':
-        return { ...stat, value: `${height} cm` }
+        return { ...stat, value: height === null ? '—' : `${height} cm` }
       case 'BMI':
-        return { ...stat, value: bmi }
+        return { ...stat, value: bmi ?? '—' }
       default:
         return stat
     }
@@ -107,6 +117,18 @@ export default async function Home() {
     calloutText: row.callout_text,
     exercises: toExercises(row.exercises),
   }))
+
+  const identities = user.identities ?? []
+  const notice =
+    searchParams.link === 'error'
+      ? 'Nie udało się połączyć konta Google. Ten adres Google jest już przypisany do innego konta.'
+      : searchParams.unlink === 'ok'
+        ? 'Konto Google zostało odłączone.'
+        : searchParams.unlink === 'blocked'
+          ? 'To jedyny sposób logowania na tym koncie — najpierw ustaw hasło.'
+          : searchParams.unlink === 'error'
+            ? 'Nie udało się odłączyć konta Google. Spróbuj ponownie.'
+            : undefined
 
   return (
     <AnimatedPage>
@@ -129,11 +151,30 @@ export default async function Home() {
             </div>
           ))}
         </div>
-        <Callout kind="safe">
-          <strong>Podejście rekompozycji:</strong> Przy BMI {bmi} i 15 latach organizm doskonale toleruje jednoczesną redukcję tłuszczu i budowę mięśni. 6 treningów z rotacją partii mięśniowych zapewnia max efektywność bez ryzyka przetrenowania. Każda partia ma min. 48 h regeneracji.
-        </Callout>
+        {hasMeasurements ? (
+          <Callout kind="safe">
+            <strong>Podejście rekompozycji:</strong> Przy BMI {bmi} i 15 latach organizm doskonale toleruje jednoczesną redukcję tłuszczu i budowę mięśni. 6 treningów z rotacją partii mięśniowych zapewnia max efektywność bez ryzyka przetrenowania. Każda partia ma min. 48 h regeneracji.
+          </Callout>
+        ) : (
+          <Callout kind="info">
+            <strong>Uzupełnij profil:</strong> wpisz wagę i wzrost w zakładce <strong>Konto</strong>, żeby zobaczyć swoje statystyki i BMI dopasowane do Ciebie.
+          </Callout>
+        )}
       </div>
-      <TabNav schemas={schemas} />
+      <TabNav
+        schemas={schemas}
+        initialTab={searchParams.tab}
+        account={{
+          fullName: profile?.full_name?.trim() || '',
+          weightKg: weight,
+          heightCm: height,
+          email: user.email ?? '—',
+          hasGoogle: identities.some(identity => identity.provider === 'google'),
+          canUnlinkGoogle: identities.length > 1,
+          notice,
+          noticeKind: searchParams.unlink === 'ok' ? 'safe' : 'danger',
+        }}
+      />
 
     </AnimatedPage>
   )
