@@ -74,7 +74,7 @@ export default function AccountPanel({ account }: { account: AccountData }) {
     <div className="panel-in space-y-4">
       {account.notice && (
         <div role="status" aria-live="polite">
-          <Callout kind={account.noticeKind ?? 'safe'}>{account.notice}</Callout>
+          <Callout kind={account.noticeKind ?? 'safe'} flush>{account.notice}</Callout>
         </div>
       )}
 
