@@ -174,7 +174,7 @@ export default async function Home({
           hasGoogle: identities.some(identity => identity.provider === 'google'),
           canUnlinkGoogle: identities.length > 1,
           notice,
-          noticeKind: searchParams.unlink === 'ok' ? 'safe' : 'danger',
+          noticeKind: searchParams.link === 'ok' || searchParams.unlink === 'ok' ? 'safe' : 'danger',
         }}
       />
 
