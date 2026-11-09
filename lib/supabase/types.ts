@@ -98,7 +98,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      move_login_identity: {
+        Args: { p_identity_id: string; p_target_user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

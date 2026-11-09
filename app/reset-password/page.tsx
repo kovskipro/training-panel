@@ -5,7 +5,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 import AuthShell from '../components/AuthShell'
 import { Button } from '../components/ui/Button'
 import { Callout } from '../components/ui/Callout'
-import { alertClass, inputClass, labelClass, submitButtonClass } from '../components/ui/form'
+import { inputClass, labelClass, submitButtonClass } from '../components/ui/form'
 import { updatePassword, type LoginState } from '../../lib/auth/actions'
 
 const initialState: LoginState = {}
@@ -63,8 +63,8 @@ export default function ResetPasswordPage() {
           </div>
 
           {state.error && (
-            <div role="alert" aria-live="polite" className={alertClass}>
-              <Callout kind="danger">{state.error}</Callout>
+            <div role="alert" aria-live="polite">
+              <Callout kind="danger" flush>{state.error}</Callout>
             </div>
           )}
 

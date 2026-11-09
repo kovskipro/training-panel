@@ -120,15 +120,17 @@ export default async function Home({
 
   const identities = user.identities ?? []
   const notice =
-    searchParams.link === 'error'
-      ? 'Nie udało się połączyć konta Google. Ten adres Google jest już przypisany do innego konta.'
-      : searchParams.unlink === 'ok'
-        ? 'Konto Google zostało odłączone.'
-        : searchParams.unlink === 'blocked'
-          ? 'To jedyny sposób logowania na tym koncie — najpierw ustaw hasło.'
-          : searchParams.unlink === 'error'
-            ? 'Nie udało się odłączyć konta Google. Spróbuj ponownie.'
-            : undefined
+    searchParams.link === 'ok'
+      ? 'Konto Google zostało połączone z tym kontem.'
+      : searchParams.link === 'error'
+        ? 'Nie udało się połączyć konta Google. Spróbuj ponownie.'
+        : searchParams.unlink === 'ok'
+          ? 'Konto Google zostało odłączone.'
+          : searchParams.unlink === 'blocked'
+            ? 'To jedyny sposób logowania na tym koncie — najpierw ustaw hasło.'
+            : searchParams.unlink === 'error'
+              ? 'Nie udało się odłączyć konta Google. Spróbuj ponownie.'
+              : undefined
 
   return (
     <AnimatedPage>

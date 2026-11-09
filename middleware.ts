@@ -41,6 +41,7 @@ export async function middleware(request: NextRequest) {
     pathname === '/signup' ||
     pathname === '/forgot-password' ||
     pathname === '/reset-password' ||
+    pathname === '/set-password' ||
     pathname === '/auth/callback'
 
   if (!user && !isPublic) {

@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '../supabase/server'
 import { getOrigin } from '../auth/origin'
+import { setPendingLink } from './pendingLink'
 
 export type ProfileState = {
   error?: string
@@ -58,8 +59,10 @@ export async function updateProfile(
 }
 
 /**
- * Links a Google identity to the signed-in account. Requires "Manual linking"
- * to be enabled in the Supabase auth settings.
+ * Starts the Google link. It signs in with Google rather than calling
+ * linkIdentity, because Google Auth refuses to link an identity that already
+ * belongs to another account — and that is exactly the case this feature exists
+ * for. The callback performs the move and then restores this session.
  */
 export async function linkGoogle(): Promise<void> {
   const supabase = createClient()
@@ -71,10 +74,20 @@ export async function linkGoogle(): Promise<void> {
     redirect('/login')
   }
 
-  const { data, error } = await supabase.auth.linkIdentity({
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session?.refresh_token) {
+    redirect('/?tab=konto&link=error')
+  }
+
+  setPendingLink(user.id, session.refresh_token)
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${getOrigin()}/auth/callback?next=${encodeURIComponent('/?tab=konto')}`,
+      redirectTo: `${getOrigin()}/auth/callback?intent=link`,
       skipBrowserRedirect: true,
     },
   })
@@ -86,10 +99,7 @@ export async function linkGoogle(): Promise<void> {
   redirect(data.url)
 }
 
-/**
- * Removes the Google identity. Refused when it is the only way to sign in, so an
- * account can never be left without a usable method.
- */
+/** Removes the Google identity. Refused when it is the only way to sign in. */
 export async function unlinkGoogle(): Promise<void> {
   const supabase = createClient()
   const {

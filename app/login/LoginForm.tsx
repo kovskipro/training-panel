@@ -7,7 +7,7 @@ import GoogleAuthButton from '../components/GoogleAuthButton'
 import TurnstileWidget, { CAPTCHA_ENABLED } from '../components/TurnstileWidget'
 import { Button } from '../components/ui/Button'
 import { Callout } from '../components/ui/Callout'
-import { alertClass, inputClass, labelClass, submitButtonClass } from '../components/ui/form'
+import { inputClass, labelClass, submitButtonClass } from '../components/ui/form'
 import { signIn, type LoginState } from '../../lib/auth/actions'
 
 const initialState: LoginState = {}
@@ -73,8 +73,8 @@ function PasswordStep({ email, onBack }: { email: string; onBack: () => void }) 
       </div>
 
       {state.error && (
-        <div role="alert" aria-live="polite" className={alertClass}>
-          <Callout kind="danger">{state.error}</Callout>
+        <div role="alert" aria-live="polite">
+          <Callout kind="danger" flush>{state.error}</Callout>
         </div>
       )}
 
@@ -158,8 +158,8 @@ export default function LoginForm({ initialError }: { initialError?: string }) {
         </div>
 
         {error && (
-          <div role="alert" aria-live="polite" className={alertClass}>
-            <Callout kind="danger">{error}</Callout>
+          <div role="alert" aria-live="polite">
+            <Callout kind="danger" flush>{error}</Callout>
           </div>
         )}
 

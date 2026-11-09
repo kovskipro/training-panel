@@ -1,12 +1,8 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
-import { Instrument_Serif, DM_Sans, DM_Mono } from 'next/font/google'
+import './fonts.css'
 import './globals.css'
 import { ThemeProvider } from './components/ThemeProvider'
-
-const serif = Instrument_Serif({ weight:['400'], subsets:['latin'], variable:'--font-serif' })
-const sans  = DM_Sans({ subsets:['latin'], variable:'--font-sans', weight:['300','400','500','600'] })
-const mono  = DM_Mono({ subsets:['latin'], variable:'--font-mono', weight:['400','500'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://workout.kovski.pro'),
@@ -48,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 `
 
   return (
-    <html lang="pl" className={`${serif.variable} ${sans.variable} ${mono.variable}`} data-theme={initialTheme} suppressHydrationWarning>
+    <html lang="pl" data-theme={initialTheme} suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#f5f5f5" />
         <meta name="msapplication-TileColor" content="#f5f5f5" />
