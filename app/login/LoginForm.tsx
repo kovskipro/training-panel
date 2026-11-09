@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import GoogleAuthButton from '../components/GoogleAuthButton'
+import TurnstileWidget, { CAPTCHA_ENABLED } from '../components/TurnstileWidget'
 import { Button } from '../components/ui/Button'
 import { Callout } from '../components/ui/Callout'
 import { alertClass, inputClass, labelClass, submitButtonClass } from '../components/ui/form'
@@ -13,11 +14,16 @@ const initialState: LoginState = {}
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-function PasswordSubmitButton() {
+function PasswordSubmitButton({ disabled }: { disabled?: boolean }) {
   const { pending } = useFormStatus()
 
   return (
-    <Button type="submit" variant="primary" disabled={pending} className={submitButtonClass}>
+    <Button
+      type="submit"
+      variant="primary"
+      disabled={pending || disabled}
+      className={submitButtonClass}
+    >
       {pending ? 'Logowanie…' : 'Zaloguj się'}
     </Button>
   )
@@ -29,9 +35,11 @@ function PasswordSubmitButton() {
  */
 function PasswordStep({ email, onBack }: { email: string; onBack: () => void }) {
   const [state, formAction] = useFormState(signIn, initialState)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const [resetKey, setResetKey] = useState(0)
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} onSubmit={() => setResetKey(key => key + 1)} className="flex flex-col gap-4">
       <input type="hidden" name="email" value={email} />
 
       <div>
@@ -70,7 +78,10 @@ function PasswordStep({ email, onBack }: { email: string; onBack: () => void }) 
         </div>
       )}
 
-      <PasswordSubmitButton />
+      <input type="hidden" name="captchaToken" value={captchaToken ?? ''} />
+      <TurnstileWidget onToken={setCaptchaToken} resetKey={resetKey} />
+
+      <PasswordSubmitButton disabled={CAPTCHA_ENABLED && !captchaToken} />
 
       <p className="text-center text-sm text-neutral-500">
         Nie pamiętasz hasła?{' '}

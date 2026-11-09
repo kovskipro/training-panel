@@ -1,9 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import AuthShell from '../components/AuthShell'
 import GoogleAuthButton from '../components/GoogleAuthButton'
+import TurnstileWidget, { CAPTCHA_ENABLED } from '../components/TurnstileWidget'
 import { Button } from '../components/ui/Button'
 import { Callout } from '../components/ui/Callout'
 import { alertClass, inputClass, labelClass, submitButtonClass } from '../components/ui/form'
@@ -11,11 +13,16 @@ import { signUp, type SignupState } from '../../lib/auth/actions'
 
 const initialState: SignupState = {}
 
-function SubmitButton() {
+function SubmitButton({ disabled }: { disabled?: boolean }) {
   const { pending } = useFormStatus()
 
   return (
-    <Button type="submit" variant="primary" disabled={pending} className={submitButtonClass}>
+    <Button
+      type="submit"
+      variant="primary"
+      disabled={pending || disabled}
+      className={submitButtonClass}
+    >
       {pending ? 'Tworzę konto…' : 'Utwórz konto'}
     </Button>
   )
@@ -23,6 +30,8 @@ function SubmitButton() {
 
 export default function SignupPage() {
   const [state, formAction] = useFormState(signUp, initialState)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const [resetKey, setResetKey] = useState(0)
 
   if (state.sent) {
     return (
@@ -47,7 +56,7 @@ export default function SignupPage() {
   return (
     <AuthShell title="Utwórz konto" subtitle="Konto zakładasz na adres e-mail. Google możesz dodać później.">
       <div className="flex flex-col gap-4">
-        <form action={formAction} className="flex flex-col gap-4">
+        <form action={formAction} onSubmit={() => setResetKey(key => key + 1)} className="flex flex-col gap-4">
           <div>
             <label htmlFor="email" className={labelClass}>
               E-mail
@@ -100,7 +109,10 @@ export default function SignupPage() {
             </div>
           )}
 
-          <SubmitButton />
+          <input type="hidden" name="captchaToken" value={captchaToken ?? ''} />
+          <TurnstileWidget onToken={setCaptchaToken} resetKey={resetKey} />
+
+          <SubmitButton disabled={CAPTCHA_ENABLED && !captchaToken} />
         </form>
 
         <div className="flex items-center gap-3">

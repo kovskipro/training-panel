@@ -24,15 +24,20 @@ export async function signIn(_prev: LoginState, formData: FormData): Promise<Log
     .trim()
     .toLowerCase()
   const password = String(formData.get('password') ?? '')
+  const captchaToken = String(formData.get('captchaToken') ?? '') || undefined
 
   if (!email || !password) {
     return { error: 'Podaj adres e-mail i hasło.' }
   }
 
   const supabase = createClient()
-  const { error } = await supabase.auth.signInWithPassword({ email, password })
+  const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken } })
 
   if (error) {
+    if (error.message.toLowerCase().includes('captcha')) {
+      return { error: 'Potwierdź, że nie jesteś robotem, i spróbuj ponownie.' }
+    }
+
     // Supabase returns invalid_credentials both for a wrong password and for an
     // address without an account, so this does not reveal whether one exists.
     return {
@@ -54,6 +59,7 @@ export async function signUp(_prev: SignupState, formData: FormData): Promise<Si
     .toLowerCase()
   const password = String(formData.get('password') ?? '')
   const passwordConfirm = String(formData.get('passwordConfirm') ?? '')
+  const captchaToken = String(formData.get('captchaToken') ?? '') || undefined
 
   if (!email || !password) {
     return { error: 'Podaj adres e-mail i hasło.' }
@@ -73,10 +79,15 @@ export async function signUp(_prev: SignupState, formData: FormData): Promise<Si
     password,
     options: {
       emailRedirectTo: `${getOrigin()}/auth/callback?next=${encodeURIComponent('/')}`,
+      captchaToken,
     },
   })
 
   if (error) {
+    if (error.message.toLowerCase().includes('captcha')) {
+      return { error: 'Potwierdź, że nie jesteś robotem, i spróbuj ponownie.' }
+    }
+
     return { error: 'Nie udało się utworzyć konta. Spróbuj ponownie.' }
   }
 
@@ -108,12 +119,19 @@ export async function requestPasswordReset(_prev: ResetState, formData: FormData
     return { error: 'Podaj adres e-mail.' }
   }
 
+  const captchaToken = String(formData.get('captchaToken') ?? '') || undefined
+
   const supabase = createClient()
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${getOrigin()}/auth/callback?next=${encodeURIComponent('/reset-password')}`,
+    captchaToken,
   })
 
   if (error) {
+    if (error.message.toLowerCase().includes('captcha')) {
+      return { error: 'Potwierdź, że nie jesteś robotem, i spróbuj ponownie.' }
+    }
+
     return { error: 'Nie udało się wysłać wiadomości. Spróbuj ponownie.' }
   }
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useFormState, useFormStatus } from 'react-dom'
+import { Badge } from './ui/Badge'
 import { Button } from './ui/Button'
 import { Callout } from './ui/Callout'
 import { Card } from './ui/Card'
@@ -53,13 +54,7 @@ function MethodRow({
       <div className="min-w-0">
         <div className="mb-0.5 flex items-center gap-2">
           <span className="text-sm font-medium text-neutral-900">{title}</span>
-          <span
-            className={`rounded-full px-2 py-0.5 text-[11px] ${
-              connected ? 'bg-green-50 text-green-700' : 'bg-neutral-100 text-neutral-500'
-            }`}
-          >
-            {connected ? 'Połączony' : 'Niepołączony'}
-          </span>
+          <Badge v={connected ? 'b-green' : 'b-gray'}>{connected ? 'Połączony' : 'Niepołączony'}</Badge>
         </div>
         <div className="truncate text-xs text-neutral-500">{detail}</div>
       </div>
