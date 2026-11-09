@@ -84,18 +84,24 @@ export default async function Home({
 
   const fullName = profile?.full_name?.trim()
   const firstName = fullName ? fullName.split(/\s+/)[0] : null
-  const weight = profile?.weight_kg ?? 68
-  const height = profile?.height_cm ?? 182
-  const bmi = (weight / ((height / 100) ** 2)).toFixed(1).replace('.', ',')
+
+  // A freshly registered account has no measurements yet. Never invent numbers:
+  // showing another person's defaults would be wrong for every new user.
+  const weight = profile?.weight_kg ?? null
+  const height = profile?.height_cm ?? null
+  const hasMeasurements = weight !== null && height !== null
+  const bmi = hasMeasurements
+    ? (Number(weight) / (Number(height) / 100) ** 2).toFixed(1).replace('.', ',')
+    : null
 
   const heroStats = stats.map(stat => {
     switch (stat.label) {
       case 'Waga':
-        return { ...stat, value: `${String(weight).replace('.', ',')} kg` }
+        return { ...stat, value: weight === null ? '—' : `${String(weight).replace('.', ',')} kg` }
       case 'Wzrost':
-        return { ...stat, value: `${height} cm` }
+        return { ...stat, value: height === null ? '—' : `${height} cm` }
       case 'BMI':
-        return { ...stat, value: bmi }
+        return { ...stat, value: bmi ?? '—' }
       default:
         return stat
     }
@@ -145,15 +151,21 @@ export default async function Home({
             </div>
           ))}
         </div>
-        <Callout kind="safe">
-          <strong>Podejście rekompozycji:</strong> Przy BMI {bmi} i 15 latach organizm doskonale toleruje jednoczesną redukcję tłuszczu i budowę mięśni. 6 treningów z rotacją partii mięśniowych zapewnia max efektywność bez ryzyka przetrenowania. Każda partia ma min. 48 h regeneracji.
-        </Callout>
+        {hasMeasurements ? (
+          <Callout kind="safe">
+            <strong>Podejście rekompozycji:</strong> Przy BMI {bmi} i 15 latach organizm doskonale toleruje jednoczesną redukcję tłuszczu i budowę mięśni. 6 treningów z rotacją partii mięśniowych zapewnia max efektywność bez ryzyka przetrenowania. Każda partia ma min. 48 h regeneracji.
+          </Callout>
+        ) : (
+          <Callout kind="info">
+            <strong>Uzupełnij profil:</strong> wpisz wagę i wzrost w zakładce <strong>Konto</strong>, żeby zobaczyć swoje statystyki i BMI dopasowane do Ciebie.
+          </Callout>
+        )}
       </div>
       <TabNav
         schemas={schemas}
         initialTab={searchParams.tab}
         account={{
-          fullName: profile?.full_name?.trim() || 'Brak nazwy',
+          fullName: profile?.full_name?.trim() || '',
           weightKg: weight,
           heightCm: height,
           email: user.email ?? '—',

@@ -11,8 +11,8 @@ import { signOut } from '../../lib/auth/actions'
 
 export type AccountData = {
   fullName: string
-  weightKg: number
-  heightCm: number
+  weightKg: number | null
+  heightCm: number | null
   email: string
   hasGoogle: boolean
   canUnlinkGoogle: boolean
@@ -70,7 +70,10 @@ function MethodRow({
 
 export default function AccountPanel({ account }: { account: AccountData }) {
   const [state, formAction] = useFormState(updateProfile, initialState)
-  const bmi = (account.weightKg / (account.heightCm / 100) ** 2).toFixed(1).replace('.', ',')
+  const bmi =
+    account.weightKg !== null && account.heightCm !== null
+      ? (account.weightKg / (account.heightCm / 100) ** 2).toFixed(1).replace('.', ',')
+      : '—'
 
   return (
     <div className="panel-in space-y-4">
@@ -99,8 +102,7 @@ export default function AccountPanel({ account }: { account: AccountData }) {
                 maxLength={80}
                 defaultValue={account.fullName}
                 className={inputClass}
-              />
-            </div>
+              />            </div>
             <div>
               <label htmlFor="weightKg" className={labelClass}>
                 Waga (kg)
@@ -114,7 +116,7 @@ export default function AccountPanel({ account }: { account: AccountData }) {
                 min="1"
                 max="399"
                 required
-                defaultValue={account.weightKg}
+                defaultValue={account.weightKg ?? ''}
                 className={inputClass}
               />
             </div>
@@ -131,7 +133,7 @@ export default function AccountPanel({ account }: { account: AccountData }) {
                 min="50"
                 max="260"
                 required
-                defaultValue={account.heightCm}
+                defaultValue={account.heightCm ?? ''}
                 className={inputClass}
               />
             </div>

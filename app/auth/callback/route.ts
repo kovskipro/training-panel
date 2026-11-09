@@ -9,6 +9,15 @@ function isOtpType(value: string | null): value is OtpType {
   return value !== null && (OTP_TYPES as readonly string[]).includes(value)
 }
 
+// Only a same-origin relative path is accepted. Backslashes and control
+// characters are rejected too, because some parsers normalise `\` to `/` and
+// would turn `/\evil.com` into a protocol-relative URL.
+function safeNextPath(value: string): string {
+  if (!value.startsWith('/') || value.startsWith('//')) return '/'
+  if (value.includes('\\') || /[\u0000-\u001f]/.test(value)) return '/'
+  return value
+}
+
 /**
  * Single entry point for every auth round-trip:
  * - OAuth (Google) and e-mail links arrive as `code`
@@ -21,9 +30,7 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type')
   const nextParam = searchParams.get('next') ?? '/'
 
-  // Only same-origin relative paths, so a crafted `next` cannot bounce the user
-  // to another domain after a successful sign-in.
-  const next = nextParam.startsWith('/') && !nextParam.startsWith('//') ? nextParam : '/'
+  const next = safeNextPath(nextParam)
 
   // A provider or linking error comes back on the same redirect, so surface it
   // where the user started instead of sending them to the login screen.
